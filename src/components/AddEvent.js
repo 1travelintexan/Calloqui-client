@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 
-class AddForm extends Component {
+class AddEvent extends Component {
   render() {
+    const { onAdd } = this.props;
     return (
-      <form>
+      <form onSubmit={onAdd}>
         <input name="name" type="text" placeholder="Enter name" />
         <input name="description" type="text" placeholder="Description" />
         <input name="date" type="text" placeholder="Enter date" />
@@ -15,4 +16,4 @@ class AddForm extends Component {
   }
 }
 
-export default AddForm;
+export default AddEvent;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 class EventDetail extends Component {
   state = {
@@ -8,22 +9,37 @@ class EventDetail extends Component {
 
   componentDidMount() {
     let eventId = this.props.match.params.eventId;
+    console.log(eventId);
     axios
-      .get("http://localhost:5005/api/events/${eventId}")
+      .get(`http://localhost:5005/api/events/${eventId}`)
       .then((response) => {
+        console.log(response.data);
         this.setState({ eventDetail: response.data });
       });
   }
 
   render() {
     const { eventDetail } = this.state;
+    console.log(eventDetail);
+
+    const { onDelete } = this.props;
     return (
       <div>
-        <h2>Event Detail page</h2>
-        <h3>{eventDetail.name}</h3>
-        <h4>{eventDetail.description}</h4>
-        <h4>{eventDetail.location}</h4>
-        <h4>{eventDetail.date}</h4>
+        <h1>Event Detail page</h1>
+        <h3>Event Name:{eventDetail.name}</h3>
+        <h3>Event Location:{eventDetail.location}</h3>
+        <h3>Event Date:{eventDetail.date}</h3>
+        <h4>Description:{eventDetail.description}</h4>
+        <button>
+          <Link to={`/event/${eventDetail._id}/edit`}>Edit</Link>
+        </button>
+        <button
+          onClick={() => {
+            onDelete(eventDetail);
+          }}
+        >
+          Delete
+        </button>
       </div>
     );
   }
