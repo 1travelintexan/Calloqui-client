@@ -7,13 +7,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: rgba(209, 99, 21, 0.906);
 }
-
-.eventButton {
-  width: 100px;
-  background-color: rgb(63, 66, 72);
-  color: aliceblue;
+h2 {
+  text-decoration: none;
 }
-
 .logo {
   border-radius: 20px;
 }
@@ -25,17 +21,44 @@ body {
   font-size: 60px;
 }
 
+.create-event {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 2px 2px 2px rgb(72, 71, 71);
+  background-color: rgb(3, 206, 3);
+  color: rgb(184, 205, 223);
+  margin-left: 20px;
+  padding-top: 5px;
+  width: 100px;
+  text-decoration: none;
+}
+
+.own {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+.own h6 {
+  color: rgb(14, 8, 4);
+  font-size: 20px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.header2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px;
+}
 .logout {
   background-color: rgb(0, 0, 205);
   width: 150px;
   color: rgb(255, 255, 255);
 }
-.logoutDiv {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-left: 200px;
-}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -68,6 +91,8 @@ code {
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  text-decoration: none;
+  color: rgb(26, 0, 170);
 }
 
 .addEvent {
