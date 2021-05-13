@@ -6,14 +6,79 @@ import EventList from "./components/EventList";
 import EventDetail from "./components/EventDetail";
 import AddEvent from "./components/AddEvent";
 import EditEvent from "./components/EditEvent";
+import SignIn from "./components/SignIn";
+import SignUp from "./components/SignUp";
+import config from "./components/config";
 
 class App extends Component {
   state = {
     events: [],
+    user: null,
+    error: null,
+  };
+
+  //signing up function
+  handleSignUp = (e) => {
+    e.preventDefault();
+    let { username, password, email } = e.target;
+    let newUser = {
+      username: username.value,
+      email: email.value,
+      password: password.value,
+    };
+    axios
+      .post(`${config.API_URL}/api/signup`, newUser)
+      .then((response) => {
+        //always with axios, the real data is in the data key word
+        this.setState(
+          {
+            user: response.data,
+          },
+          () => {
+            this.props.history.push("/");
+          }
+        );
+      })
+      .catch((errorObj) => {
+        this.setState({
+          error: errorObj.response.data,
+        });
+      });
+  };
+
+  //signing in function
+  handleSignIn = (e) => {
+    e.preventDefault();
+    let { email, password } = e.target;
+    let newUser = {
+      email: email.value,
+      password: password.value,
+    };
+    axios
+      .post(`${config.API_URL}/api/signin`, newUser)
+      .then((response) => {
+        //always with axios, the real data is in the data key word
+        this.setState(
+          {
+            user: response.data,
+            error: null,
+          },
+          () => {
+            this.props.history.push("/");
+          }
+        );
+        console.log("signin sucessful");
+      })
+      .catch((errorObj) => {
+        this.setState({
+          error: errorObj.response.data,
+        });
+        console.log("signin failed");
+      });
   };
 
   componentDidMount = () => {
-    axios.get("http://localhost:5005/api/events").then((response) => {
+    axios.get(`${config.API_URL}/api/events`).then((response) => {
       this.setState({ events: response.data });
     });
   };
@@ -30,7 +95,7 @@ class App extends Component {
     };
 
     axios
-      .post("http://localhost:5005/api/create", newEvent)
+      .post(`${config.API_URL}/api/create`, newEvent)
       .then(() => {
         this.setState(
           {
@@ -47,11 +112,12 @@ class App extends Component {
       });
   };
 
+  //deletes events in db
   handleDelete = (eventDetail) => {
     //delete from the DB
     //delete from the state
     axios
-      .delete(`http://localhost:5005/api/events/${eventDetail._id}`)
+      .delete(`${config.API_URL}/api/events/${eventDetail._id}`)
       .then(() => {
         let filteredEvents = this.state.events.filter((event) => {
           return event._id !== eventDetail._id;
@@ -73,11 +139,11 @@ class App extends Component {
   //handling the edit items
   handleEdit = (eventDetail) => {
     axios
-      .patch(`http://localhost:5005/api/events/${eventDetail._id}`, eventDetail)
+      .patch(`${config.API_URL}/api/events/${eventDetail._id}`, eventDetail)
       .then(() => {
         //update the local state after updating the Db
         let updatedEvents = this.state.events.map((event) => {
-          if (event._id == eventDetail._id) {
+          if (event._id === eventDetail._id) {
             event.name = eventDetail.name;
             event.description = eventDetail.description;
             event.location = eventDetail.location;
@@ -94,16 +160,23 @@ class App extends Component {
           }
         );
       })
-      .catch(() => {});
+      .catch((errorObj) => {});
   };
 
   render() {
     // destructor state first
-    const { events } = this.state;
+    const { events, error } = this.state;
     return (
       <div>
-        <h1>Surf Sessions:</h1>
-        <MyNav />
+        <div className="mynav">
+          <img className="logo" src="./Clogo.jpeg" alt="logo" height="60px" />
+          <h1 className="call">Calloqui</h1>
+          <img className="logo" src="./Clogo2.png" alt="avatar" height="60px" />
+        </div>
+        <div>
+          <MyNav />
+          <h1 className="sess">Upcoming Sessions:</h1>
+        </div>
         <Switch>
           <Route
             exact
@@ -132,6 +205,24 @@ class App extends Component {
             path="/add-event"
             render={() => {
               return <AddEvent onAdd={this.handleAdd} />;
+            }}
+          />
+          <Route
+            path="/signin"
+            render={(routeProps) => {
+              return (
+                <SignIn
+                  error={this.error}
+                  onSignIn={this.handleSignIn}
+                  {...routeProps}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/signup"
+            render={(routeProps) => {
+              return <SignUp onSubmit={this.handleSignUp} {...routeProps} />;
             }}
           />
         </Switch>
