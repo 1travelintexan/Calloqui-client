@@ -15,6 +15,23 @@ class App extends Component {
     events: [],
     user: null,
     error: null,
+    fetchingUser: true,
+  };
+
+  //log out pass an empty objext as second parameter so it doesnt send the withcred... as the object
+  handleLogout = (e) => {
+    axios
+      .post(`${config.API_URL}/api/logout`, {}, { withCredentials: true })
+      .then((response) => {
+        this.setState({
+          user: null,
+        });
+      })
+      .catch((errorObj) => {
+        this.setState({
+          error: errorObj.response.data,
+        });
+      });
   };
 
   //signing up function
@@ -27,7 +44,7 @@ class App extends Component {
       password: password.value,
     };
     axios
-      .post(`${config.API_URL}/api/signup`, newUser)
+      .post(`${config.API_URL}/api/signup`, newUser, { withCredentials: true })
       .then((response) => {
         //always with axios, the real data is in the data key word
         this.setState(
@@ -54,8 +71,9 @@ class App extends Component {
       email: email.value,
       password: password.value,
     };
+    console.log(newUser);
     axios
-      .post(`${config.API_URL}/api/signin`, newUser)
+      .post(`${config.API_URL}/api/signin`, newUser, { withCredentials: true })
       .then((response) => {
         //always with axios, the real data is in the data key word
         this.setState(
@@ -78,9 +96,22 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    axios.get(`${config.API_URL}/api/events`).then((response) => {
-      this.setState({ events: response.data });
-    });
+    axios
+      .get(`${config.API_URL}/api/events`, { withCredentials: true })
+      .then((response) => {
+        this.setState({ events: response.data });
+      })
+      .catch(() => {
+        console.log("did not mount");
+      });
+    axios
+      .get(`${config.API_URL}/api/events`, { withCredentials: true })
+      .then((response) => {
+        this.setState({ user: response.data, fetchingUser: false });
+      })
+      .catch((errorObj) => {
+        this.setState({ error: errorObj.response.data, fetchingUser: false });
+      });
   };
 
   //this updtes the DB and state
@@ -95,7 +126,7 @@ class App extends Component {
     };
 
     axios
-      .post(`${config.API_URL}/api/create`, newEvent)
+      .post(`${config.API_URL}/api/create`, newEvent, { withCredentials: true })
       .then(() => {
         this.setState(
           {
@@ -117,7 +148,9 @@ class App extends Component {
     //delete from the DB
     //delete from the state
     axios
-      .delete(`${config.API_URL}/api/events/${eventDetail._id}`)
+      .delete(`${config.API_URL}/api/events/${eventDetail._id}`, {
+        withCredentials: true,
+      })
       .then(() => {
         let filteredEvents = this.state.events.filter((event) => {
           return event._id !== eventDetail._id;
@@ -139,7 +172,9 @@ class App extends Component {
   //handling the edit items
   handleEdit = (eventDetail) => {
     axios
-      .patch(`${config.API_URL}/api/events/${eventDetail._id}`, eventDetail)
+      .patch(`${config.API_URL}/api/events/${eventDetail._id}`, eventDetail, {
+        withCredentials: true,
+      })
       .then(() => {
         //update the local state after updating the Db
         let updatedEvents = this.state.events.map((event) => {
@@ -165,16 +200,20 @@ class App extends Component {
 
   render() {
     // destructor state first
-    const { events, error } = this.state;
+    const { events, error, user, fetchingUser } = this.state;
+
+    if (fetchingUser) {
+      return <h2> Never Surf Alone!</h2>;
+    }
     return (
       <div>
         <div className="mynav">
           <img className="logo" src="./Clogo.jpeg" alt="logo" height="60px" />
-          <h1 className="call">Calloqui</h1>
+          <h1 className="call">Kook-Club!</h1>
           <img className="logo" src="./Clogo2.png" alt="avatar" height="60px" />
         </div>
         <div>
-          <MyNav />
+          <MyNav onLogout={this.handleLogout} user={user} />
           <h1 className="sess">Upcoming Sessions:</h1>
         </div>
         <Switch>
@@ -190,7 +229,11 @@ class App extends Component {
             path="/event/:eventId"
             render={(routeProps) => {
               return (
-                <EventDetail onDelete={this.handleDelete} {...routeProps} />
+                <EventDetail
+                  user={user}
+                  onDelete={this.handleDelete}
+                  {...routeProps}
+                />
               );
             }}
           />
@@ -212,7 +255,7 @@ class App extends Component {
             render={(routeProps) => {
               return (
                 <SignIn
-                  error={this.error}
+                  error={error}
                   onSignIn={this.handleSignIn}
                   {...routeProps}
                 />

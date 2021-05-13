@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class EventDetail extends Component {
   state = {
@@ -22,7 +22,19 @@ class EventDetail extends Component {
     const { eventDetail } = this.state;
     console.log(eventDetail);
 
-    const { onDelete } = this.props;
+    const { onDelete, user } = this.props;
+    if (!user) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/signin",
+            state: {
+              message: "Plese login first",
+            },
+          }}
+        />
+      );
+    }
     return (
       <div>
         <h1>Event Detail page</h1>

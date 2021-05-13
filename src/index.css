@@ -8,6 +8,12 @@ body {
   background-color: rgba(209, 99, 21, 0.906);
 }
 
+.eventButton {
+  width: 100px;
+  background-color: rgb(63, 66, 72);
+  color: aliceblue;
+}
+
 .logo {
   border-radius: 20px;
 }
@@ -19,6 +25,17 @@ body {
   font-size: 60px;
 }
 
+.logout {
+  background-color: rgb(0, 0, 205);
+  width: 150px;
+  color: rgb(255, 255, 255);
+}
+.logoutDiv {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-left: 200px;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
