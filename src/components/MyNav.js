@@ -11,6 +11,12 @@ function MyNav(props) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
+              <Link to="/">
+                <h3>Events</h3>
+              </Link>
+              <Link to="/">
+                <h3>Change your Avatar</h3>
+              </Link>
               {user ? (
                 <button className="logout" onClick={onLogout}>
                   Logout
@@ -29,10 +35,7 @@ function MyNav(props) {
           </Navbar.Collapse>
         </Navbar>
       </div>
-      <Link className="events" to="/">
-        <h2>Events</h2>
-      </Link>
-      <span className="own">
+      <span className="create-sess">
         <h6>Create your own session</h6>
         <Link className="create-event" to="/add-event">
           <h2>Start</h2>

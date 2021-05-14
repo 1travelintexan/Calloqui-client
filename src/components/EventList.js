@@ -9,8 +9,13 @@ class EventList extends Component {
       <div className="events">
         {events.map((event) => {
           return (
-            <div key={event._id}>
-              <Link to={`/event/${event._id}`}>{event.name}</Link>
+            <div className="event-list">
+              <div key={event._id}>
+                <Link className="event-name" to={`/event/${event._id}`}>
+                  <h2>{event.name}</h2>
+                </Link>
+              </div>
+              <img className="eventPic" src={event.image} alt="sess pic" />
             </div>
           );
         })}

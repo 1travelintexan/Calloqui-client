@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class EventDetail extends Component {
   state = {
@@ -9,7 +10,7 @@ class EventDetail extends Component {
 
   componentDidMount() {
     let eventId = this.props.match.params.eventId;
-    console.log(eventId);
+
     axios
       .get(`http://localhost:5005/api/events/${eventId}`)
       .then((response) => {
@@ -20,9 +21,9 @@ class EventDetail extends Component {
 
   render() {
     const { eventDetail } = this.state;
-    console.log(eventDetail);
 
-    const { onDelete, user } = this.props;
+    const { onDelete, user, comments, onComment } = this.props;
+
     if (!user) {
       return (
         <Redirect
@@ -36,22 +37,43 @@ class EventDetail extends Component {
       );
     }
     return (
-      <div>
-        <h1>Event Detail page</h1>
-        <h3>Event Name:{eventDetail.name}</h3>
-        <h3>Event Location:{eventDetail.location}</h3>
-        <h3>Event Date:{eventDetail.date}</h3>
-        <h4>Description:{eventDetail.description}</h4>
-        <button>
-          <Link to={`/event/${eventDetail._id}/edit`}>Edit</Link>
-        </button>
-        <button
-          onClick={() => {
-            onDelete(eventDetail);
-          }}
-        >
-          Delete
-        </button>
+      <div className="event-detail">
+        <h2>{eventDetail.name}</h2>
+        <Link to={`/event/${eventDetail._id}/edit`}>Edit</Link>
+        {eventDetail.image && (
+          <img className="eventPic" src={eventDetail.image} alt="sess pic" />
+        )}
+        <h3>Location:</h3>
+        <h6>{eventDetail.location}</h6>
+
+        <h3>Date:</h3>
+        <h6>{eventDetail.date}</h6>
+
+        <h3>Description:</h3>
+        <h6>{eventDetail.description}</h6>
+
+        <h3>Comments:</h3>
+        <h6>{comments.comment}</h6>
+
+        <div className="commentBtn">
+          <form onSubmit={(e) => onComment(e, eventDetail._id)}>
+            <input name="comment" type="text" placeholder="comment" />
+            <button type="submit" class="btn btn-info">
+              Add Comment
+            </button>
+          </form>
+        </div>
+        <div>
+          <button
+            type="button"
+            class="btn btn-danger"
+            onClick={() => {
+              onDelete(eventDetail);
+            }}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     );
   }

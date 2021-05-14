@@ -8,7 +8,9 @@ import AddEvent from "./components/AddEvent";
 import EditEvent from "./components/EditEvent";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+//import Avatar from "./components/Avatar";
 import config from "./components/config";
+import { Helmet } from "react-helmet";
 
 class App extends Component {
   state = {
@@ -16,6 +18,8 @@ class App extends Component {
     user: null,
     error: null,
     fetchingUser: true,
+    comments: [],
+    avatars: [],
   };
 
   //log out pass an empty objext as second parameter so it doesnt send the withcred... as the object
@@ -118,19 +122,31 @@ class App extends Component {
   handleAdd = (e) => {
     e.preventDefault();
 
-    let newEvent = {
-      name: e.target.name.value,
-      description: e.target.description.value,
-      date: e.target.date.value,
-      location: e.target.location.value,
-    };
+    let image = e.target.eventImage.files[0];
+    let formData = new FormData();
+    formData.append("imageUrl", image);
 
     axios
-      .post(`${config.API_URL}/api/create`, newEvent, { withCredentials: true })
-      .then(() => {
+      .post(`${config.API_URL}/api/upload`, formData)
+      .then((response) => {
+        return axios.post(
+          `${config.API_URL}/api/create`,
+          {
+            name: e.target.name.value,
+            image: response.data.image,
+            description: e.target.description.value,
+            date: e.target.date.value,
+            location: e.target.location.value,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+      })
+      .then((response) => {
         this.setState(
           {
-            events: [newEvent, ...this.state.events],
+            events: [response.data, ...this.state.events],
           },
           () => {
             //redirect user after adding an event here
@@ -139,7 +155,39 @@ class App extends Component {
         );
       })
       .catch(() => {
-        console.log("add event failed");
+        console.log("upload failed");
+      });
+  };
+
+  //this adds a comment to the db
+  handleComment = (e, eventId) => {
+    e.preventDefault();
+    let { comment } = e.target;
+    console.log(comment.value);
+
+    axios
+      .post(
+        `${config.API_URL}/api/comment/${eventId}/create`,
+        { comment: comment.value },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        //always with axios, the real data is in the data key word
+        this.setState(
+          {
+            comments: response.data,
+          },
+          () => {
+            this.props.history.push("/");
+          }
+        );
+      })
+      .catch((errorObj) => {
+        this.setState({
+          error: errorObj.response.data,
+        });
       });
   };
 
@@ -198,19 +246,63 @@ class App extends Component {
       .catch((errorObj) => {});
   };
 
+  //handles the avatar photo
+  handleAvatar = (e) => {
+    e.preventDefault();
+
+    let image = e.target.eventImage.files[0];
+    let formData = new FormData();
+    formData.append("imageUrl", image);
+
+    axios
+      .post(`${config.API_URL}/api/avatar-upload`, formData, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        this.setState(
+          {
+            avatars: [response.data, ...this.state.avatars],
+          },
+          () => {
+            //redirect user after adding an event here
+            this.props.history.push("/");
+          }
+        );
+      })
+      .catch(() => {
+        console.log("avatar upload failed");
+      });
+  };
+
   render() {
     // destructor state first
-    const { events, error, user, fetchingUser } = this.state;
+    const { events, error, user, fetchingUser, comments } = this.state;
 
     if (fetchingUser) {
       return <h2> Never Surf Alone!</h2>;
     }
     return (
       <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Kook-Club!</title>
+        </Helmet>
         <div className="mynav">
-          <img className="logo" src="./Clogo.jpeg" alt="logo" height="60px" />
+          <img
+            className="logo"
+            loading="lazy"
+            src="./kclogo2.jpeg"
+            alt="logo"
+            height="80px"
+          />
           <h1 className="call">Kook-Club!</h1>
-          <img className="logo" src="./Clogo2.png" alt="avatar" height="60px" />
+          <img
+            className="logo"
+            loading="lazy"
+            src="./Clogo2.png"
+            alt="avatar"
+            height="60px"
+          />
         </div>
         <div>
           <MyNav onLogout={this.handleLogout} user={user} />
@@ -231,6 +323,8 @@ class App extends Component {
               return (
                 <EventDetail
                   user={user}
+                  comments={comments}
+                  onComment={this.handleComment}
                   onDelete={this.handleDelete}
                   {...routeProps}
                 />
@@ -247,7 +341,7 @@ class App extends Component {
           <Route
             path="/add-event"
             render={() => {
-              return <AddEvent onAdd={this.handleAdd} />;
+              return <AddEvent user={user} onAdd={this.handleAdd} />;
             }}
           />
           <Route
@@ -266,6 +360,14 @@ class App extends Component {
             path="/signup"
             render={(routeProps) => {
               return <SignUp onSubmit={this.handleSignUp} {...routeProps} />;
+            }}
+          />
+
+          <Route
+            exact
+            path="/avatar"
+            render={() => {
+              return <EventList onAvatar={this.handleAvatar} events={events} />;
             }}
           />
         </Switch>
