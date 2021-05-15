@@ -69,7 +69,7 @@ class EventDetail extends Component {
               onDelete(eventDetail);
             }}
           >
-            Delete
+            Delete Event
           </button>
         </div>
       </div>

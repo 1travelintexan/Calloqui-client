@@ -9,6 +9,7 @@ import EditEvent from "./components/EditEvent";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Avatar from "./components/Avatar";
+import Profile from "./components/Profile";
 import config from "./components/config";
 import { Helmet } from "react-helmet";
 import NotFound from "./components/NotFound";
@@ -280,7 +281,7 @@ class App extends Component {
     const { events, error, user, fetchingUser, comments } = this.state;
 
     if (fetchingUser) {
-      return <h2> Never Surf Alone!</h2>;
+      return <h2 className="alone"> Never Surf Alone!</h2>;
     }
     return (
       <div className="body">
@@ -366,6 +367,12 @@ class App extends Component {
             path="/upload/avatar"
             render={() => {
               return <Avatar user={user} onAvatar={this.handleAvatar} />;
+            }}
+          />
+          <Route
+            path="/profile"
+            render={(routeProps) => {
+              return <Profile error={error} user={user} {...routeProps} />;
             }}
           />
           <Route component={NotFound} />

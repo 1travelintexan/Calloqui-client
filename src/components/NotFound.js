@@ -5,8 +5,8 @@ import LottieControl from "./LottieControl";
 class NotFound extends Component {
   render() {
     return (
-      <div>
-        <LottieControl animation={data} width={800} height={900} />
+      <div className="page">
+        <LottieControl animation={data} width={400} height={300} />
       </div>
     );
   }
