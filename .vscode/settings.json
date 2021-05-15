@@ -3,5 +3,6 @@
     "activityBar.background": "#16852e",
     "titleBar.activeBackground": "#16852e",
     "titleBar.activeForeground": "#F6FBFB"
-  }
+},
+"json.maxItemsComputed": 100000
 }

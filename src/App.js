@@ -11,6 +11,7 @@ import SignUp from "./components/SignUp";
 import Avatar from "./components/Avatar";
 import config from "./components/config";
 import { Helmet } from "react-helmet";
+import NotFound from "./components/NotFound";
 
 class App extends Component {
   state = {
@@ -367,6 +368,7 @@ class App extends Component {
               return <Avatar user={user} onAvatar={this.handleAvatar} />;
             }}
           />
+          <Route component={NotFound} />
         </Switch>
       </div>
     );
