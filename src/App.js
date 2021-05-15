@@ -8,7 +8,7 @@ import AddEvent from "./components/AddEvent";
 import EditEvent from "./components/EditEvent";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
-//import Avatar from "./components/Avatar";
+import Avatar from "./components/Avatar";
 import config from "./components/config";
 import { Helmet } from "react-helmet";
 
@@ -180,7 +180,7 @@ class App extends Component {
             comments: response.data,
           },
           () => {
-            this.props.history.push("/");
+            this.props.history.push("/event/:eventId");
           }
         );
       })
@@ -255,7 +255,7 @@ class App extends Component {
     formData.append("imageUrl", image);
 
     axios
-      .post(`${config.API_URL}/api/avatar-upload`, formData, {
+      .post(`${config.API_URL}/api/upload/avatar`, formData, {
         withCredentials: true,
       })
       .then((response) => {
@@ -282,7 +282,7 @@ class App extends Component {
       return <h2> Never Surf Alone!</h2>;
     }
     return (
-      <div>
+      <div className="body">
         <Helmet>
           <meta charSet="utf-8" />
           <title>Kook-Club!</title>
@@ -293,20 +293,17 @@ class App extends Component {
             loading="lazy"
             src="./kclogo2.jpeg"
             alt="logo"
-            height="80px"
           />
           <h1 className="call">Kook-Club!</h1>
           <img
-            className="logo"
+            className="avatar"
             loading="lazy"
-            src="./Clogo2.png"
+            src="./avatar.jpg"
             alt="avatar"
-            height="60px"
           />
         </div>
         <div>
           <MyNav onLogout={this.handleLogout} user={user} />
-          <h1 className="sess">Upcoming Sessions:</h1>
         </div>
         <Switch>
           <Route
@@ -365,9 +362,9 @@ class App extends Component {
 
           <Route
             exact
-            path="/avatar"
+            path="/upload/avatar"
             render={() => {
-              return <EventList onAvatar={this.handleAvatar} events={events} />;
+              return <Avatar user={user} onAvatar={this.handleAvatar} />;
             }}
           />
         </Switch>

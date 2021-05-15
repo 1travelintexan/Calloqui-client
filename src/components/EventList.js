@@ -6,7 +6,8 @@ class EventList extends Component {
     //destructor props coming from app.js state
     const { events } = this.props;
     return (
-      <div className="events">
+      <div className="events-list">
+        <h1 className="upcoming-events">Upcoming Events:</h1>
         {events.map((event) => {
           return (
             <div className="event-list">

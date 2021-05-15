@@ -13,7 +13,7 @@ class AddEvent extends Component {
         <form onSubmit={onAdd}>
           <input name="name" type="text" placeholder="Enter name" />
           <input name="description" type="text" placeholder="Description" />
-          <input name="date" type="text" placeholder="Enter date" />
+          <input name="date" type="date" placeholder="Enter date" />
           <input name="location" type="text" placeholder="Location" />
           <input name="eventImage" type="file" accept="image/jpeg, image/png" />
           <Button type="submit">Submit</Button>

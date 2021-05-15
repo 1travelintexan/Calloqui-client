@@ -28,10 +28,8 @@ class EventDetail extends Component {
       return (
         <Redirect
           to={{
-            pathname: "/signin",
-            state: {
-              message: "Plese login first",
-            },
+            pathname: "/signup",
+            state: "Please sign in",
           }}
         />
       );

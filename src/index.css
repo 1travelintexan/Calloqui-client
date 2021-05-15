@@ -21,6 +21,12 @@ h2 {
 
 .logo {
   border-radius: 20px;
+  height: 100px;
+}
+.avatar {
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
 }
 
 .event-name {
@@ -35,14 +41,6 @@ h2 {
   width: 400px;
   margin-bottom: 30px;
   margin-top: -5px;
-}
-
-.eventlist {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
 }
 
 .call {
@@ -99,17 +97,14 @@ code {
   align-items: center;
   justify-content: space-between;
   background-color: rgba(249, 128, 23, 0.975);
-}
-.nav1 {
-  background-color: chocolate;
+  padding: 0 10px 0 10px;
 }
 
-.sess {
+.upcoming-events {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 10px;
-
   font-size: 50px;
   text-align: center;
   color: rgb(77, 76, 74);
@@ -117,7 +112,7 @@ code {
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-.events {
+.events-list {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -153,7 +148,7 @@ code {
   justify-self: center;
   flex-direction: column;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  color: rgb(209, 96, 3);
+  color: rgb(97, 96, 94);
 }
 
 .commentBtn {

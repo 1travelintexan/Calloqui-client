@@ -7,14 +7,14 @@ function MyNav(props) {
   return (
     <div className="header2">
       <div>
-        <Navbar id="navbar" bg="light" expand="lg" className="nav1">
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar id="navbar" bg="light" expand="lg">
+          <Navbar.Toggle className="body" aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <Link to="/">
                 <h3>Events</h3>
               </Link>
-              <Link to="/">
+              <Link to="/upload/avatar">
                 <h3>Change your Avatar</h3>
               </Link>
               {user ? (
