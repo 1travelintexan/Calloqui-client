@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 class EventDetail extends Component {
   state = {
     eventDetail: {},
+    fetchingData: true,
   };
 
   componentDidMount() {
@@ -14,15 +15,15 @@ class EventDetail extends Component {
     axios
       .get(`http://localhost:5005/api/events/${eventId}`)
       .then((response) => {
-        console.log(response.data);
-        this.setState({ eventDetail: response.data });
+        this.setState({ eventDetail: response.data, fetchingData: false });
       });
   }
 
   render() {
-    const { eventDetail } = this.state;
-
-    const { onDelete, user, comments, onComment } = this.props;
+    const { eventDetail, fetchingData } = this.state;
+    const eventId = eventDetail._id;
+    const { user, onComment, comments } = this.props;
+    const eventComments = comments.filter((elem) => elem.eventId === eventId);
 
     if (!user) {
       return (
@@ -34,6 +35,13 @@ class EventDetail extends Component {
         />
       );
     }
+    if (fetchingData) {
+      return (
+        <div className="loading">
+          <h1> loading...</h1>
+        </div>
+      );
+    }
     return (
       <div className="event-detail">
         <h2>{eventDetail.name}</h2>
@@ -43,15 +51,19 @@ class EventDetail extends Component {
         )}
         <h3>Location:</h3>
         <h6>{eventDetail.location}</h6>
-
         <h3>Date:</h3>
         <h6>{eventDetail.date}</h6>
-
         <h3>Description:</h3>
         <h6>{eventDetail.description}</h6>
-
         <h3>Comments:</h3>
-        <h6>{comments.comment}</h6>
+
+        {eventComments.map((elem) => {
+          return (
+            <div>
+              <p>{elem.comment}</p>
+            </div>
+          );
+        })}
 
         <div className="commentBtn">
           <form onSubmit={(e) => onComment(e, eventDetail._id)}>
@@ -60,17 +72,6 @@ class EventDetail extends Component {
               Add Comment
             </button>
           </form>
-        </div>
-        <div>
-          <button
-            type="button"
-            class="btn btn-danger"
-            onClick={() => {
-              onDelete(eventDetail);
-            }}
-          >
-            Delete Event
-          </button>
         </div>
       </div>
     );

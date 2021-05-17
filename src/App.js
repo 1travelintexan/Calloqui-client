@@ -11,6 +11,7 @@ import SignUp from "./components/SignUp";
 import Avatar from "./components/Avatar";
 import Profile from "./components/Profile";
 import config from "./components/config";
+import CircleLoader from "./components/CircleLoader";
 import { Helmet } from "react-helmet";
 import NotFound from "./components/NotFound";
 
@@ -101,28 +102,44 @@ class App extends Component {
       });
   };
 
+  // NEED TO UPDATE THE STRUCTURE TO HAVE A SINGLE SET STATE FOR ONE GET
   componentDidMount = () => {
+    //get events from db
     axios
       .get(`${config.API_URL}/api/events`, { withCredentials: true })
       .then((response) => {
-        this.setState({ events: response.data });
+        this.setState({ events: response.data, fetchingUser: false });
       })
       .catch(() => {
         console.log("did not mount");
       });
+    // get user from db
     axios
-      .get(`${config.API_URL}/api/events`, { withCredentials: true })
+      .get(`${config.API_URL}/api/user`, { withCredentials: true })
       .then((response) => {
         this.setState({ user: response.data, fetchingUser: false });
       })
       .catch((errorObj) => {
         this.setState({ error: errorObj.response.data, fetchingUser: false });
       });
+    //get comments from db
+    axios
+      .get(`${config.API_URL}/api/comments`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        this.setState({ comments: response.data, fetchingUser: false });
+      })
+      .catch((errorObj) => {
+        this.setState({ error: errorObj.response.data });
+      });
   };
 
   //this updtes the DB and state
-  handleAdd = (e) => {
+  handleAdd = (e, user) => {
     e.preventDefault();
+
+    console.log(user);
 
     let image = e.target.eventImage.files[0];
     let formData = new FormData();
@@ -165,7 +182,6 @@ class App extends Component {
   handleComment = (e, eventId) => {
     e.preventDefault();
     let { comment } = e.target;
-    console.log(comment.value);
 
     axios
       .post(
@@ -177,6 +193,7 @@ class App extends Component {
       )
       .then((response) => {
         //always with axios, the real data is in the data key word
+        console.log("comment sucess!");
         this.setState(
           {
             comments: response.data,
@@ -187,6 +204,7 @@ class App extends Component {
         );
       })
       .catch((errorObj) => {
+        console.log("comment failed");
         this.setState({
           error: errorObj.response.data,
         });
@@ -194,17 +212,21 @@ class App extends Component {
   };
 
   //deletes events in db
-  handleDelete = (eventDetail) => {
+  handleDelete = (eventId) => {
+    console.log(`deleted: ${eventId}`);
+    console.log(this.state.events);
+
     //delete from the DB
     //delete from the state
     axios
-      .delete(`${config.API_URL}/api/events/${eventDetail._id}`, {
+      .delete(`${config.API_URL}/api/profile/${eventId}`, {
         withCredentials: true,
       })
       .then(() => {
         let filteredEvents = this.state.events.filter((event) => {
-          return event._id !== eventDetail._id;
+          return event._id !== eventId;
         });
+        console.log("delete sucessful");
         this.setState(
           {
             events: filteredEvents,
@@ -281,7 +303,19 @@ class App extends Component {
     const { events, error, user, fetchingUser, comments } = this.state;
 
     if (fetchingUser) {
-      return <h2 className="alone"> Never Surf Alone!</h2>;
+      return (
+        <div className="loading">
+          <h1 className="call">Kook-Club!</h1>
+          <CircleLoader />
+          <h2 className="alone"> Never Surf Alone!</h2>
+          <img
+            className="logo-loading"
+            loading="lazy"
+            src="./kclogo2.jpeg"
+            alt="logo"
+          />
+        </div>
+      );
     }
     return (
       <div className="body">
@@ -293,14 +327,14 @@ class App extends Component {
           <img
             className="logo"
             loading="lazy"
-            src="./kclogo2.jpeg"
+            src="images/kclogo2.jpeg"
             alt="logo"
           />
           <h1 className="call">Kook-Club!</h1>
           <img
             className="avatar"
             loading="lazy"
-            src="./avatar.jpg"
+            src="images/avatar.jpg"
             alt="avatar"
           />
         </div>
@@ -324,7 +358,6 @@ class App extends Component {
                   user={user}
                   comments={comments}
                   onComment={this.handleComment}
-                  onDelete={this.handleDelete}
                   {...routeProps}
                 />
               );
@@ -372,7 +405,17 @@ class App extends Component {
           <Route
             path="/profile"
             render={(routeProps) => {
-              return <Profile error={error} user={user} {...routeProps} />;
+              return (
+                <Profile
+                  events={events}
+                  error={error}
+                  user={user}
+                  comments={comments}
+                  onComment={this.handleComment}
+                  onDelete={this.handleDelete}
+                  {...routeProps}
+                />
+              );
             }}
           />
           <Route component={NotFound} />
