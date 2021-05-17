@@ -145,6 +145,10 @@ code {
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   color: rgb(97, 96, 94);
 }
+.event-detail button {
+  margin-top: -30px;
+  margin-bottom: 40px;
+}
 
 .add-event {
   display: flex;

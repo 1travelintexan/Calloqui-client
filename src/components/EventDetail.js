@@ -42,6 +42,13 @@ class EventDetail extends Component {
     const { eventDetail, fetchingData } = this.state;
     const { user, onComment, comments } = this.props;
 
+    if (fetchingData) {
+      return (
+        <div className="loading">
+          <h1> loading...</h1>
+        </div>
+      );
+    }
     if (!user) {
       return (
         <Redirect
@@ -52,13 +59,7 @@ class EventDetail extends Component {
         />
       );
     }
-    if (fetchingData) {
-      return (
-        <div className="loading">
-          <h1> loading...</h1>
-        </div>
-      );
-    }
+
     const eventComments = comments.filter(
       (elem) => elem.eventId === eventDetail._id
     );

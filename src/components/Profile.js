@@ -13,23 +13,36 @@ class Profile extends Component {
     eventDetail: {},
   };
 
-  // componentDidMount() {
-  //   let eventId = this.props.match.params.eventId;
+  componentDidMount() {
+    let eventId = this.props.match.params.eventId;
 
-  //   axios
-  //     .get(`http://localhost:5005/api/events/${eventId}`)
-  //     .then((response) => {
-  //       this.setState({ eventDetail: response.data, fetchingData: false });
-  //     });
-  // }
+    axios.get(`http://localhost:5005/api/profile`).then((response) => {
+      console.log(response.data);
+      this.setState({ eventDetail: response.data, fetchingData: false });
+    });
+  }
 
   render() {
     const { eventDetail, fetchingData } = this.state;
     const { events, user, onDelete } = this.props;
     const myEvents = events.filter((elem) => elem.owner === user._id);
 
-    if (!user || this.state.user === null) {
-      return <Redirect to={"/signup"} />;
+    if (fetchingData) {
+      return (
+        <div className="loading">
+          <h1> loading...</h1>
+        </div>
+      );
+    }
+    if (!user) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/signup",
+            state: "Please sign in",
+          }}
+        />
+      );
     }
     return (
       <div>
