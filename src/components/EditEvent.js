@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 
 class EditEvent extends Component {
@@ -81,35 +82,51 @@ class EditEvent extends Component {
     const { eventDetail } = this.state;
     const { onEdit } = this.props;
     return (
-      <div>
-        <h2>Edit Event Page</h2>
-        <input
-          onChange={this.handleNameChange}
-          type="text"
-          value={eventDetail.name}
-        />
-        <input
-          onChange={this.handleDescChange}
-          type="text"
-          value={eventDetail.description}
-        />
-        <input
-          onChange={this.handleDateChange}
-          type="text"
-          value={eventDetail.date}
-        />
-        <input
-          onChange={this.handleLocationChange}
-          type="text"
-          value={eventDetail.location}
-        />
-        <button
+      <div className="add-event">
+        <div>
+          <h2>Edit your Event: </h2>
+        </div>
+        <div>
+          <label>Event Name:</label>
+          <input
+            onChange={this.handleNameChange}
+            type="text"
+            value={eventDetail.name}
+          />
+        </div>
+        <div>
+          <label>Event Date:</label>
+          <input
+            onChange={this.handleDateChange}
+            type="date"
+            value={eventDetail.date}
+          />
+        </div>
+        <div>
+          <label>Event Location:</label>
+          <input
+            onChange={this.handleLocationChange}
+            type="text"
+            value={eventDetail.location}
+          />
+        </div>
+        <div>
+          <label>Event Description:</label>
+          <textarea
+            rows="2"
+            cols="40"
+            onChange={this.handleDescChange}
+            value={eventDetail.description}
+          />
+        </div>
+        <Button
+          type="submit"
           onClick={() => {
             onEdit(eventDetail);
           }}
         >
           Submit
-        </button>
+        </Button>
       </div>
     );
   }

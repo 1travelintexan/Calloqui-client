@@ -30,9 +30,14 @@ class App extends Component {
     axios
       .post(`${config.API_URL}/api/logout`, {}, { withCredentials: true })
       .then((response) => {
-        this.setState({
-          user: null,
-        });
+        this.setState(
+          {
+            user: null,
+          },
+          () => {
+            this.props.history.push(`/`);
+          }
+        );
       })
       .catch((errorObj) => {
         this.setState({
@@ -104,34 +109,35 @@ class App extends Component {
 
   // NEED TO UPDATE THE STRUCTURE TO HAVE A SINGLE SET STATE FOR ONE GET
   componentDidMount = () => {
-    //get events from db
-    axios
-      .get(`${config.API_URL}/api/events`, { withCredentials: true })
+    //start editing here
+    //user api get
+    let userGet = axios.get(`${config.API_URL}/api/user`, {
+      withCredentials: true,
+    });
+
+    //event api get
+    let eventGet = axios.get(`${config.API_URL}/api/events`, {
+      withCredentials: true,
+    });
+
+    //comments api get
+    let commentGet = axios.get(`${config.API_URL}/api/comments`, {
+      withCredentials: true,
+    });
+
+    //chained together
+    Promise.allSettled([userGet, eventGet, commentGet])
       .then((response) => {
-        this.setState({ events: response.data, fetchingUser: false });
-      })
-      .catch(() => {
-        console.log("did not mount");
-      });
-    // get user from db
-    axios
-      .get(`${config.API_URL}/api/user`, { withCredentials: true })
-      .then((response) => {
-        this.setState({ user: response.data, fetchingUser: false });
+        this.setState({
+          user: response[0].value.data,
+          events: response[1].value.data,
+          comments: response[2].value.data,
+          fetchingUser: false,
+        });
       })
       .catch((errorObj) => {
-        this.setState({ error: errorObj.response.data, fetchingUser: false });
-      });
-    //get comments from db
-    axios
-      .get(`${config.API_URL}/api/comments`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        this.setState({ comments: response.data, fetchingUser: false });
-      })
-      .catch((errorObj) => {
-        this.setState({ error: errorObj.response.data });
+        console.log("promise failed");
+        this.setState({ error: errorObj.data, fetchingUser: false });
       });
   };
 
@@ -187,6 +193,7 @@ class App extends Component {
       .post(
         `${config.API_URL}/api/comment/${eventId}/create`,
         { comment: comment.value },
+
         {
           withCredentials: true,
         }
@@ -194,12 +201,16 @@ class App extends Component {
       .then((response) => {
         //always with axios, the real data is in the data key word
         console.log("comment sucess!");
+        console.log(response.data);
+        // never modify the state except with setState, clone it,then add comment then set state
+        const clonedComments = JSON.parse(JSON.stringify(this.state.comments));
+        clonedComments.push(response.data);
         this.setState(
           {
-            comments: response.data,
+            comments: clonedComments,
           },
           () => {
-            this.props.history.push("/event/:eventId");
+            this.props.history.push(`/event/${eventId}`);
           }
         );
       })

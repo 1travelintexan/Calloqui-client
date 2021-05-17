@@ -1,10 +1,30 @@
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
+import config from "../components/config";
 
 class Profile extends Component {
+  state = {
+    events: [],
+    user: null,
+    error: null,
+    fetchingUser: true,
+    comments: [],
+    eventDetail: {},
+  };
+
+  // componentDidMount() {
+  //   let eventId = this.props.match.params.eventId;
+
+  //   axios
+  //     .get(`http://localhost:5005/api/events/${eventId}`)
+  //     .then((response) => {
+  //       this.setState({ eventDetail: response.data, fetchingData: false });
+  //     });
+  // }
+
   render() {
-    // deconstruct props from App.js
+    const { eventDetail, fetchingData } = this.state;
     const { events, user, onDelete } = this.props;
     const myEvents = events.filter((elem) => elem.owner === user._id);
 
@@ -24,6 +44,7 @@ class Profile extends Component {
                     <Link className="event-name" to={`/event/${e._id}`}>
                       <h2>{e.name}</h2>
                     </Link>
+                    <Link to={`/event/${e._id}/edit`}>Edit</Link>
                   </div>
                   <img className="eventPic" src={e.image} alt="sess pic" />
                 </div>

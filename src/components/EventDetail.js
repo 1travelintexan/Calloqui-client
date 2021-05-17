@@ -1,29 +1,46 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import config from "./config";
 
 class EventDetail extends Component {
   state = {
-    eventDetail: {},
+    eventDetail: null,
     fetchingData: true,
+    comments: [],
   };
 
   componentDidMount() {
     let eventId = this.props.match.params.eventId;
 
-    axios
-      .get(`http://localhost:5005/api/events/${eventId}`)
+    //eventDetail get from axios
+    let eventDetailGet = axios.get(`${config.API_URL}/api/events/${eventId}`, {
+      withCredentials: true,
+    });
+
+    //comments api get
+    let commentGet = axios.get(`${config.API_URL}/api/comments`, {
+      withCredentials: true,
+    });
+
+    Promise.allSettled([eventDetailGet, commentGet])
       .then((response) => {
-        this.setState({ eventDetail: response.data, fetchingData: false });
+        this.setState({
+          eventDetail: response[0].value.data,
+          comments: response[1].value.data,
+          fetchingData: false,
+        });
+      })
+      .catch((errorObj) => {
+        console.log("promise failed");
+        this.setState({ error: errorObj.data, fetchingData: false });
       });
   }
 
   render() {
     const { eventDetail, fetchingData } = this.state;
-    const eventId = eventDetail._id;
     const { user, onComment, comments } = this.props;
-    const eventComments = comments.filter((elem) => elem.eventId === eventId);
 
     if (!user) {
       return (
@@ -42,10 +59,14 @@ class EventDetail extends Component {
         </div>
       );
     }
+    const eventComments = comments.filter(
+      (elem) => elem.eventId === eventDetail._id
+    );
+
     return (
       <div className="event-detail">
         <h2>{eventDetail.name}</h2>
-        <Link to={`/event/${eventDetail._id}/edit`}>Edit</Link>
+
         {eventDetail.image && (
           <img className="eventPic" src={eventDetail.image} alt="sess pic" />
         )}
