@@ -24,7 +24,7 @@ function MyNav(props) {
                 <h3>Create an Event</h3>
               </Link>
               {user ? (
-                <Link className="h3" onClick={onLogout}>
+                <Link className="h3" to="/" onClick={onLogout}>
                   <h3>Logout</h3>
                 </Link>
               ) : (
