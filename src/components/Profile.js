@@ -28,7 +28,7 @@ class Profile extends Component {
     const { events, user, onDelete } = this.props;
     const myEvents = events.filter((elem) => elem.owner === user._id);
 
-    if (!user) {
+    if (!user || this.state.user === null) {
       return <Redirect to={"/signup"} />;
     }
     return (

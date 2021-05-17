@@ -37,8 +37,10 @@ h2 {
 .eventPic {
   height: 200px;
   width: 400px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   margin-top: -5px;
+  border: 10px solid rgb(250, 245, 194);
+  box-shadow: 4px 4px 8px rgb(48, 47, 47);
 }
 
 .call {
