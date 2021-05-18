@@ -6,6 +6,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.shaka {
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-around;
+  margin-bottom: 40px;
+}
+.shaka img {
+  height: 40px;
+  margin-top: -10px;
+}
+.shaka h4 {
+  color: rgb(246, 88, 252);
+  font-family: fantasy;
+}
 h2 {
   text-decoration: none;
 }
@@ -43,7 +59,7 @@ h2 {
 .eventPic {
   height: 200px;
   width: 400px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   margin-top: -5px;
   border: 10px solid rgb(250, 245, 194);
   box-shadow: 4px 4px 8px rgb(48, 47, 47);
