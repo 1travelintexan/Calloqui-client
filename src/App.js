@@ -292,7 +292,6 @@ class App extends Component {
       })
       .then((response) => {
         console.log("avatar sucess");
-        console.log(response.data);
 
         this.setState(
           {
@@ -312,8 +311,6 @@ class App extends Component {
   render() {
     // destructor state first
     const { events, error, user, fetchingUser, comments } = this.state;
-    console.log("this is the user");
-    console.log(user);
 
     if (fetchingUser) {
       return (
@@ -344,13 +341,10 @@ class App extends Component {
             alt="logo"
           />
           <h1 className="call">Kook-Club!</h1>
-          <img
-            className="avatar"
-            loading="lazy"
-            src={user.avatar}
-            alt="avatar"
-          />
         </div>
+        {user?.avatar ? (
+          <img className="avatar" loading="lazy" src={user.avatar} />
+        ) : null}
         <div>
           <MyNav onLogout={this.handleLogout} user={user} />
         </div>
@@ -377,7 +371,7 @@ class App extends Component {
             }}
           />
           <Route
-            path="/event/:eventId/edit"
+            path="/events/:eventId"
             render={(routeProps) => {
               return <EditEvent onEdit={this.handleEdit} {...routeProps} />;
             }}

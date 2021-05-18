@@ -11,7 +11,7 @@ class AddEvent extends Component {
     return (
       <div className="add-event">
         <div>
-          <h2>Creat your event here!</h2>
+          <h2>Create your event here!</h2>
         </div>
         <form onSubmit={(e) => onAdd(e, user)}>
           <div>

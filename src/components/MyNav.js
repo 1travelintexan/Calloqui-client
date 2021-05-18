@@ -42,9 +42,9 @@ function MyNav(props) {
         </Navbar>
       </div>
       <span className="create-sess">
-        <h6>Create your own session</h6>
+        <h6>Create an Event</h6>
         <Link className="create-event" to="/add-event">
-          <h2>Start</h2>
+          <h2>Create</h2>
         </Link>
       </span>
     </div>

@@ -22,6 +22,9 @@ h2 {
   height: 100px;
 }
 .avatar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   height: 80px;
   width: 80px;
   border-radius: 40px;
@@ -48,6 +51,7 @@ h2 {
   text-shadow: 2px 2px 2px rgb(58, 56, 56);
   font-family: Bradley Hand, cursive;
   font-size: 13vw;
+  margin-left: 20px;
 }
 
 .create-event {
@@ -95,7 +99,7 @@ code {
 .mynav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   background-color: rgba(249, 128, 23, 0.975);
   padding: 0 10px 0 10px;
 }
@@ -198,6 +202,7 @@ code {
   align-items: center;
   justify-self: center;
   flex-direction: column;
+  margin-bottom: 50px;
 }
 .page {
   width: 100%;
@@ -226,4 +231,47 @@ code {
 .logo-loading {
   height: 80px;
   border-radius: 20px;
+}
+
+.avatar-page {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 200px;
+}
+
+.avatar-page Button {
+  margin-left: 20px;
+}
+.link {
+  background-color: rgb(141, 177, 243);
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 18px;
+  margin-right: 80px;
+}
+.link1 {
+  text-decoration: none;
+  color: aliceblue;
+}
+.edit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -20px;
+}
+.avatar-page-h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  font-size: 6vw;
+  text-align: center;
+  color: rgb(77, 76, 74);
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }

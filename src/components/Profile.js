@@ -43,6 +43,7 @@ class Profile extends Component {
         />
       );
     }
+
     return (
       <div>
         <h1 className="upcoming-events">Welcome! {user.name}</h1>
@@ -56,11 +57,15 @@ class Profile extends Component {
                     <Link className="event-name" to={`/event/${e._id}`}>
                       <h2>{e.name}</h2>
                     </Link>
-                    <Link to={`/event/${e._id}/edit`}>Edit</Link>
                   </div>
                   <img className="eventPic" src={e.image} alt="sess pic" />
                 </div>
-                <div className="event-detail">
+                <div className="edit-button">
+                  <div className="link">
+                    <Link className="link1" to={`/events/${e._id}`}>
+                      Edit
+                    </Link>
+                  </div>
                   <button
                     type="button"
                     class="btn btn-danger"
