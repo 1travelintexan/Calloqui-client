@@ -3,6 +3,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import config from "./config";
+import CircleLoader from "../components/CircleLoader";
 
 class EventDetail extends Component {
   state = {
@@ -45,7 +46,15 @@ class EventDetail extends Component {
     if (fetchingData) {
       return (
         <div className="loading">
-          <h1> loading...</h1>
+          <h1 className="call">Kook-Club!</h1>
+          <CircleLoader />
+          <h2 className="alone"> Never Surf Alone!</h2>
+          <img
+            className="logo-loading"
+            loading="lazy"
+            src="./kclogo2.jpeg"
+            alt="logo"
+          />
         </div>
       );
     }
@@ -82,7 +91,14 @@ class EventDetail extends Component {
         {eventComments.map((elem) => {
           return (
             <div>
-              <p>{elem.comment}</p>
+              <div className="comments">
+                <div>
+                  <h5 className="owner">{elem.owner.name}:</h5>
+                </div>
+                <div>
+                  <p>{elem.comment}</p>
+                </div>
+              </div>
             </div>
           );
         })}
