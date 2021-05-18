@@ -1,5 +1,5 @@
 body {
-  margin: 0;
+  margin: 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -15,6 +15,9 @@ h2 {
 }
 .form-group {
   width: 400px;
+}
+.margin-bottom {
+  margin-bottom: 40px;
 }
 
 .logo {
@@ -105,15 +108,14 @@ code {
 }
 
 .upcoming-events {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  font-size: 50px;
   text-align: center;
-  color: rgb(77, 76, 74);
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 8vw;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  color: rgb(97, 96, 94);
 }
 
 .events-list {
@@ -156,21 +158,19 @@ code {
 .desc {
   width: 300px;
 }
-
-.all-create {
+.add-event-page {
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin: 20px;
 }
-
 .add-event {
   width: 700px;
-  background-color: rgb(194, 236, 238);
-  border: 1px solid rgb(146, 146, 146);
+  background-color: rgba(158, 244, 247, 0.411);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  text-align: center;
   padding: 20px;
 }
 .add-event h2 {
@@ -184,7 +184,6 @@ code {
   color: rgb(97, 96, 94);
 }
 .add-event input {
-  display: block;
   margin: 5px;
   box-shadow: 2px 2px 6px rgb(175, 175, 253);
   margin-bottom: 10px;
@@ -198,13 +197,10 @@ code {
 .add-event Button {
   text-align: center;
   margin-bottom: 30px;
-  display: flex;
-  margin-left: 150px;
   color: aliceblue;
   background-color: rgb(74, 150, 236);
 }
 .add-event textarea {
-  display: block;
   margin: 5px;
   box-shadow: 2px 2px 6px rgb(175, 175, 253);
   margin-bottom: 10px;
@@ -268,12 +264,15 @@ code {
   margin-left: 20px;
 }
 .link {
-  background-color: rgb(141, 177, 243);
-  width: 100px;
-  height: 30px;
-  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(108, 158, 250, 0.637);
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
   text-align: center;
-  font-size: 18px;
+  font-size: 25px;
   margin-right: 80px;
 }
 .link1 {
@@ -312,13 +311,12 @@ code {
   flex-direction: row;
   justify-content: flex-start;
   align-content: center;
-  background-color: rgba(177, 250, 250, 0.89);
-  width: 300px;
+
   margin-bottom: 10px;
 }
 .owner {
   margin-right: 10px;
-  font-family: cursive;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bolder;
   font-size: 20px;
 }

@@ -27,6 +27,8 @@ class EventDetail extends Component {
 
     Promise.allSettled([eventDetailGet, commentGet])
       .then((response) => {
+        console.log("edit promise sucess");
+        //console.log(response[0].value.data);
         this.setState({
           eventDetail: response[0].value.data,
           comments: response[1].value.data,
@@ -43,6 +45,7 @@ class EventDetail extends Component {
     const { eventDetail, fetchingData } = this.state;
     const { user, onComment, comments } = this.props;
 
+    //loading screen
     if (fetchingData) {
       return (
         <div className="loading">
@@ -80,12 +83,13 @@ class EventDetail extends Component {
         {eventDetail.image && (
           <img className="eventPic" src={eventDetail.image} alt="sess pic" />
         )}
+        <h3>Description:</h3>
+        <h6 className="desc">{eventDetail.description}</h6>
         <h3>Location:</h3>
         <h6>{eventDetail.location}</h6>
         <h3>Date:</h3>
         <h6>{eventDetail.date}</h6>
-        <h3>Description:</h3>
-        <h6 className="desc">{eventDetail.description}</h6>
+
         <h3>Comments:</h3>
 
         {eventComments.map((elem) => {

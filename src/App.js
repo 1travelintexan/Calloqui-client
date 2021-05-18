@@ -198,7 +198,7 @@ class App extends Component {
       .then((response) => {
         //always with axios, the real data is in the data key word
         console.log("comment sucess!");
-        console.log(response.data);
+
         // never modify the state except with setState, clone it,then add comment then set state
         const clonedComments = JSON.parse(JSON.stringify(this.state.comments));
         clonedComments.push(response.data);
@@ -252,7 +252,7 @@ class App extends Component {
   //handling the edit items
   handleEdit = (eventDetail) => {
     axios
-      .patch(`${config.API_URL}/api/events/${eventDetail._id}`, eventDetail, {
+      .patch(`${config.API_URL}/api/event/${eventDetail._id}`, eventDetail, {
         withCredentials: true,
       })
       .then(() => {
@@ -312,6 +312,7 @@ class App extends Component {
     // destructor state first
     const { events, error, user, fetchingUser, comments } = this.state;
 
+    //loading screen
     if (fetchingUser) {
       return (
         <div className="loading">
@@ -327,6 +328,8 @@ class App extends Component {
         </div>
       );
     }
+
+    //nav bar at top in orange
     return (
       <div className="body">
         <Helmet>
@@ -345,9 +348,11 @@ class App extends Component {
         {user?.avatar ? (
           <img className="avatar" loading="lazy" src={user.avatar} />
         ) : null}
+
         <div>
           <MyNav onLogout={this.handleLogout} user={user} />
         </div>
+
         <Switch>
           <Route
             exact
@@ -371,7 +376,7 @@ class App extends Component {
             }}
           />
           <Route
-            path="/events/:eventId"
+            path="/event/:eventId"
             render={(routeProps) => {
               return <EditEvent onEdit={this.handleEdit} {...routeProps} />;
             }}

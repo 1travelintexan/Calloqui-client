@@ -45,8 +45,8 @@ class Profile extends Component {
     }
 
     return (
-      <div>
-        <h1 className="upcoming-events">Welcome! {user.name}</h1>
+      <div className="margin-bottom">
+        <h1 className="upcoming-events">Welcome {user.name}!</h1>
         <h2 className="profile">List of your events:</h2>
         <div className="events-list">
           {myEvents.map((e) => {
@@ -62,7 +62,7 @@ class Profile extends Component {
                 </div>
                 <div className="edit-button">
                   <div className="link">
-                    <Link className="link1" to={`/events/${e._id}`}>
+                    <Link className="link1" to={`/event/${e._id}/edit`}>
                       Edit
                     </Link>
                   </div>

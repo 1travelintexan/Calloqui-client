@@ -9,7 +9,7 @@ class AddEvent extends Component {
       return <Redirect to={"/signup"} />;
     }
     return (
-      <div className="all-create">
+      <div className="add-event-page">
         <div className="add-event">
           <div>
             <h2>Create your event here!</h2>
