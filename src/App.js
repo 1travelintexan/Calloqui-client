@@ -292,6 +292,7 @@ class App extends Component {
       })
       .then((response) => {
         console.log("avatar sucess");
+        console.log(response.data);
 
         this.setState(
           {
@@ -311,6 +312,7 @@ class App extends Component {
   render() {
     // destructor state first
     const { events, error, user, fetchingUser, comments } = this.state;
+    console.log("this is the user");
     console.log(user);
 
     if (fetchingUser) {
@@ -345,7 +347,7 @@ class App extends Component {
           <img
             className="avatar"
             loading="lazy"
-            src="{user.avatar}"
+            src={user.avatar}
             alt="avatar"
           />
         </div>
