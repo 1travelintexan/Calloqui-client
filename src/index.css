@@ -127,6 +127,7 @@ code {
   justify-content: center;
   flex-direction: column;
   text-align: center;
+  margin-bottom: 20px;
 }
 .event-detail h2 {
   margin-top: 30px;
@@ -146,8 +147,10 @@ code {
   color: rgb(97, 96, 94);
 }
 .event-detail button {
-  margin-top: -30px;
-  margin-bottom: 40px;
+  margin-left: 10px;
+}
+.desc {
+  width: 300px;
 }
 
 .add-event {
@@ -189,9 +192,6 @@ code {
   font-size: 8vw;
 }
 
-.commentBtn {
-  margin-bottom: 30px;
-}
 .profile {
   text-align: center;
   display: flex;

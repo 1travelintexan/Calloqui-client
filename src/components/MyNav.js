@@ -17,7 +17,7 @@ function MyNav(props) {
               <Link className="h3" to="/profile">
                 <h3>Your Profile</h3>
               </Link>
-              <Link className="h3" to="/upload/avatar">
+              <Link className="h3" to="/avatar">
                 <h3>Change your Avatar</h3>
               </Link>
               <Link className="h3" to="/add-event">

@@ -15,7 +15,7 @@ class EventDetail extends Component {
     let eventId = this.props.match.params.eventId;
 
     //eventDetail get from axios
-    let eventDetailGet = axios.get(`${config.API_URL}/api/events/${eventId}`, {
+    let eventDetailGet = axios.get(`${config.API_URL}/api/event/${eventId}`, {
       withCredentials: true,
     });
 
@@ -76,7 +76,7 @@ class EventDetail extends Component {
         <h3>Date:</h3>
         <h6>{eventDetail.date}</h6>
         <h3>Description:</h3>
-        <h6>{eventDetail.description}</h6>
+        <h6 className="desc">{eventDetail.description}</h6>
         <h3>Comments:</h3>
 
         {eventComments.map((elem) => {
@@ -87,14 +87,12 @@ class EventDetail extends Component {
           );
         })}
 
-        <div className="commentBtn">
-          <form onSubmit={(e) => onComment(e, eventDetail._id)}>
-            <input name="comment" type="text" placeholder="comment" />
-            <button type="submit" class="btn btn-info">
-              Add Comment
-            </button>
-          </form>
-        </div>
+        <form onSubmit={(e) => onComment(e, eventDetail._id)}>
+          <input name="comment" type="text" placeholder="comment" />
+          <button type="submit" class="btn btn-info">
+            Add Comment
+          </button>
+        </form>
       </div>
     );
   }

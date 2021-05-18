@@ -22,7 +22,6 @@ class App extends Component {
     error: null,
     fetchingUser: true,
     comments: [],
-    avatars: [],
   };
 
   //log out pass an empty objext as second parameter so it doesnt send the withcred... as the object
@@ -144,8 +143,6 @@ class App extends Component {
   //this updtes the DB and state
   handleAdd = (e, user) => {
     e.preventDefault();
-
-    console.log(user);
 
     let image = e.target.eventImage.files[0];
     let formData = new FormData();
@@ -282,21 +279,23 @@ class App extends Component {
   };
 
   //handles the avatar photo
-  handleAvatar = (e) => {
+  handleAvatar = (e, userId) => {
     e.preventDefault();
 
-    let image = e.target.eventImage.files[0];
+    let avatar = e.target.avatar.files[0];
     let formData = new FormData();
-    formData.append("imageUrl", image);
+    formData.append("imageUrl", avatar);
 
     axios
-      .post(`${config.API_URL}/api/upload/avatar`, formData, {
+      .patch(`${config.API_URL}/api/avatar/${userId}`, formData, {
         withCredentials: true,
       })
       .then((response) => {
+        console.log("avatar sucess");
+
         this.setState(
           {
-            avatars: [response.data, ...this.state.avatars],
+            user: response.data,
           },
           () => {
             //redirect user after adding an event here
@@ -312,6 +311,7 @@ class App extends Component {
   render() {
     // destructor state first
     const { events, error, user, fetchingUser, comments } = this.state;
+    console.log(user);
 
     if (fetchingUser) {
       return (
@@ -345,7 +345,7 @@ class App extends Component {
           <img
             className="avatar"
             loading="lazy"
-            src="images/avatar.jpg"
+            src="{user.avatar}"
             alt="avatar"
           />
         </div>
@@ -408,7 +408,7 @@ class App extends Component {
 
           <Route
             exact
-            path="/upload/avatar"
+            path="/avatar"
             render={() => {
               return <Avatar user={user} onAvatar={this.handleAvatar} />;
             }}

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
-import config from "../components/config";
 
 class Profile extends Component {
   state = {
@@ -14,7 +13,7 @@ class Profile extends Component {
   };
 
   componentDidMount() {
-    let eventId = this.props.match.params.eventId;
+    //let eventId = this.props.match.params.eventId;
 
     axios.get(`http://localhost:5005/api/profile`).then((response) => {
       console.log(response.data);
@@ -23,7 +22,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { eventDetail, fetchingData } = this.state;
+    const { fetchingData } = this.state;
     const { events, user, onDelete } = this.props;
     const myEvents = events.filter((elem) => elem.owner === user._id);
 
