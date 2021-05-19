@@ -41,6 +41,17 @@ class EventDetail extends Component {
       });
   }
 
+  componentDidUpdate() {
+    const { events } = this.props;
+    const currentEvent = events.filter(
+      (e) => e._id === this.state.eventDetail._id
+    );
+
+    if (currentEvent[0].shaka.length !== this.state.eventDetail.shaka.length) {
+      this.setState({ eventDetail: currentEvent[0] });
+    }
+  }
+
   render() {
     const { eventDetail, fetchingData } = this.state;
     const { user, onComment, comments, onShaka } = this.props;
@@ -78,17 +89,17 @@ class EventDetail extends Component {
 
     return (
       <div className="event-detail">
-        <div className="shaka">
-          <h4>Spred some love! </h4>
-        </div>
         <h2>{eventDetail.name}</h2>
 
         {eventDetail.image && (
           <img className="eventPic1" src={eventDetail.image} alt="sess pic" />
         )}
         <div className="shaka">
-          <img onClick={onShaka} src="/images/shaka.jpeg" />
-          <h5>Shaka Count: {eventDetail.shaka ? eventDetail.shaka : 0}</h5>
+          <h4>Spred some love! </h4>
+        </div>
+        <div className="shaka">
+          <img onClick={() => onShaka(eventDetail)} src="/images/shaka.jpeg" />
+          <h5>Shaka Count: {eventDetail.shaka.length}</h5>
         </div>
         <h3>Description:</h3>
         <h6 className="desc">{eventDetail.description}</h6>

@@ -310,7 +310,7 @@ class App extends Component {
   };
 
   //handle the shakas (likes)
-  handleShaka = (shaka, eventDetail) => {
+  handleShaka = (eventDetail) => {
     axios
       .patch(
         `${config.API_URL}/api/event/${eventDetail._id}/shaka`,
@@ -319,11 +319,11 @@ class App extends Component {
           withCredentials: true,
         }
       )
-      .then(() => {
+      .then((response) => {
         //update the local state after updating the Db
         let updatedEvents = this.state.events.map((event) => {
           if (event._id === eventDetail._id) {
-            event.shaka++;
+            return response.data;
           }
           return event;
         });
@@ -405,6 +405,7 @@ class App extends Component {
             render={(routeProps) => {
               return (
                 <EventDetail
+                  events={events}
                   user={user}
                   onShaka={this.handleShaka}
                   comments={comments}
