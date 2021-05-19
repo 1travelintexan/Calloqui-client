@@ -43,10 +43,10 @@ class EventDetail extends Component {
 
   render() {
     const { eventDetail, fetchingData } = this.state;
-    const { user, onComment, comments } = this.props;
+    const { user, onComment, comments, onShaka } = this.props;
 
     //loading screen
-    if (fetchingUser) {
+    if (fetchingData) {
       return (
         <div className="loading">
           <h1 className="call">Kook-Club!</h1>
@@ -78,15 +78,17 @@ class EventDetail extends Component {
 
     return (
       <div className="event-detail">
+        <div className="shaka">
+          <h4>Spred some love! </h4>
+        </div>
         <h2>{eventDetail.name}</h2>
 
         {eventDetail.image && (
-          <img className="eventPic" src={eventDetail.image} alt="sess pic" />
+          <img className="eventPic1" src={eventDetail.image} alt="sess pic" />
         )}
         <div className="shaka">
-          <h4>Spred some love! </h4>
-          <img src="/images/shaka.jpeg" />
-          <h5>Shaka Count: 0</h5>
+          <img onClick={onShaka} src="/images/shaka.jpeg" />
+          <h5>Shaka Count: {eventDetail.shaka ? eventDetail.shaka : 0}</h5>
         </div>
         <h3>Description:</h3>
         <h6 className="desc">{eventDetail.description}</h6>

@@ -47,7 +47,7 @@ class Profile extends Component {
     return (
       <div className="margin-bottom">
         <h1 className="upcoming-events">Welcome {user.name}!</h1>
-        <h2 className="profile">List of your events:</h2>
+        <h2 className="event-detail">List of your events:</h2>
         <div className="events-list">
           {myEvents.map((e) => {
             return (

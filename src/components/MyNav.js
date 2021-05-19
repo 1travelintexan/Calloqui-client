@@ -11,30 +11,32 @@ function MyNav(props) {
           <Navbar.Toggle className="body" aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Link className="h3" to="/">
+              <Link className="nav-link" to="/">
                 <h3>Events</h3>
               </Link>
-              <Link className="h3" to="/profile">
-                <h3>Your Profile</h3>
+              <Link className="nav-link" to="/profile">
+                <h3>Profile</h3>
               </Link>
-              <Link className="h3" to="/avatar">
-                <h3>Change your Avatar</h3>
+              <Link className="nav-link" to="/avatar">
+                <h3>Avatar</h3>
               </Link>
-              <Link className="h3" to="/add-event">
-                <h3>Create an Event</h3>
+              <Link className="nav-link" to="/add-event">
+                <h3>Create Event</h3>
               </Link>
               {user ? (
-                <Link className="h3" to="/" onClick={onLogout}>
+                <Link className="nav-link" to="/" onClick={onLogout}>
                   <h3>Logout</h3>
                 </Link>
               ) : (
                 <>
-                  <Link style={{ marginLeft: "10px" }} to="/signin">
-                    SignIn
-                  </Link>
-                  <Link style={{ marginLeft: "10px" }} to="/signup">
-                    SignUp
-                  </Link>
+                  <div>
+                    <Link className="login-links" to="/signin">
+                      Login
+                    </Link>
+                    <Link className="login-links" to="/signup">
+                      SignUp
+                    </Link>
+                  </div>
                 </>
               )}
             </Nav>

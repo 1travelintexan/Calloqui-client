@@ -159,6 +159,7 @@ class App extends Component {
             description: e.target.description.value,
             date: e.target.date.value,
             location: e.target.location.value,
+            shaka: 0,
           },
           {
             withCredentials: true,
@@ -309,7 +310,29 @@ class App extends Component {
   };
 
   //handle the shakas (likes)
-  handleShaka = () => {};
+  handleShaka = (shaka, eventDetail) => {
+    axios
+      .patch(
+        `${config.API_URL}/api/event/${eventDetail._id}/shaka`,
+        eventDetail,
+        {
+          withCredentials: true,
+        }
+      )
+      .then(() => {
+        //update the local state after updating the Db
+        let updatedEvents = this.state.events.map((event) => {
+          if (event._id === eventDetail._id) {
+            event.shaka++;
+          }
+          return event;
+        });
+        this.setState({
+          events: updatedEvents,
+        });
+      })
+      .catch((errorObj) => {});
+  };
 
   render() {
     // destructor state first
@@ -383,6 +406,7 @@ class App extends Component {
               return (
                 <EventDetail
                   user={user}
+                  onShaka={this.handleShaka}
                   comments={comments}
                   onComment={this.handleComment}
                   {...routeProps}

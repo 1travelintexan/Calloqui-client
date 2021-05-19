@@ -3,7 +3,7 @@ import React from "react";
 function SignUp(props) {
   const { onSubmit } = props;
   return (
-    <div className="profile">
+    <div className="event-detail">
       <h2>Sign up with us!</h2>
       <form onSubmit={onSubmit}>
         <div className="form-group">

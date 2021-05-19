@@ -3,8 +3,8 @@ import React from "react";
 function SignIn(props) {
   const { onSignIn, error } = props;
   return (
-    <div className="profile">
-      <h2>Please sign-in</h2>
+    <div className="event-detail">
+      <h2>Please Log-In</h2>
       <form onSubmit={onSignIn}>
         <div className="form-group">
           <label htmlFor="InputEmail">Email address</label>
