@@ -320,7 +320,9 @@ class App extends Component {
         }
       )
       .then((response) => {
-        //update the local state after updating the Db
+        // check to see if the id of the events from this state = the id from the event detail with the like
+        //if the id's match then return the event from response (this is for only one like per user)
+        //bc if the ids are the same then it returns the event from this.state, but if
         let updatedEvents = this.state.events.map((event) => {
           if (event._id === eventDetail._id) {
             return response.data;
@@ -331,7 +333,11 @@ class App extends Component {
           events: updatedEvents,
         });
       })
-      .catch((errorObj) => {});
+      .catch((errorObj) => {
+        this.setState({
+          error: errorObj.response.data,
+        });
+      });
   };
 
   render() {
@@ -391,6 +397,7 @@ class App extends Component {
           <MyNav onLogout={this.handleLogout} user={user} />
         </div>
 
+        {/* all routes  */}
         <Switch>
           <Route
             exact
