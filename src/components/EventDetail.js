@@ -46,18 +46,18 @@ class EventDetail extends Component {
     const { user, onComment, comments } = this.props;
 
     //loading screen
-    if (fetchingData) {
+    if (fetchingUser) {
       return (
         <div className="loading">
           <h1 className="call">Kook-Club!</h1>
-          <CircleLoader />
-          <h2 className="alone"> Never Surf Alone!</h2>
+
           <img
             className="logo-loading"
             loading="lazy"
-            src="./kclogo2.jpeg"
+            src="images/kclogo2.jpeg"
             alt="logo"
           />
+          <CircleLoader />
         </div>
       );
     }

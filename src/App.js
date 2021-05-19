@@ -131,12 +131,12 @@ class App extends Component {
           user: response[0].value.data,
           events: response[1].value.data,
           comments: response[2].value.data,
-          fetchingUser: true,
+          fetchingUser: false,
         });
       })
       .catch((errorObj) => {
         console.log("promise failed");
-        this.setState({ error: errorObj.data, fetchingUser: true });
+        this.setState({ error: errorObj.data, fetchingUser: false });
       });
   };
 
