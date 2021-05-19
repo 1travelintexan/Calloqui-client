@@ -84,7 +84,7 @@ class EventDetail extends Component {
           <img className="eventPic" src={eventDetail.image} alt="sess pic" />
         )}
         <div className="shaka">
-          <h4>Spred some love! => </h4>
+          <h4>Spred some love! </h4>
           <img src="/images/shaka.jpeg" />
           <h5>Shaka Count: 0</h5>
         </div>

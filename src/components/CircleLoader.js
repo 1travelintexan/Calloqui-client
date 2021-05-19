@@ -2,13 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const circleStyle = {
-  display: "block",
+  display: "flex",
   width: "5rem",
   height: "5rem",
   border: "1rem solid #facaa7",
   borderTop: "1rem solid #f59042",
   borderRadius: "50%",
-  position: "absolute",
+
   boxSizing: "border-box",
   top: "10%",
   left: "40%",

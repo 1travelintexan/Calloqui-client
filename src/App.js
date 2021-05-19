@@ -131,12 +131,12 @@ class App extends Component {
           user: response[0].value.data,
           events: response[1].value.data,
           comments: response[2].value.data,
-          fetchingUser: false,
+          fetchingUser: true,
         });
       })
       .catch((errorObj) => {
         console.log("promise failed");
-        this.setState({ error: errorObj.data, fetchingUser: false });
+        this.setState({ error: errorObj.data, fetchingUser: true });
       });
   };
 
@@ -308,6 +308,9 @@ class App extends Component {
       });
   };
 
+  //handle the shakas (likes)
+  handleShaka = () => {};
+
   render() {
     // destructor state first
     const { events, error, user, fetchingUser, comments } = this.state;
@@ -317,37 +320,49 @@ class App extends Component {
       return (
         <div className="loading">
           <h1 className="call">Kook-Club!</h1>
-          <CircleLoader />
-          <h2 className="alone"> Never Surf Alone!</h2>
+
           <img
             className="logo-loading"
             loading="lazy"
-            src="./kclogo2.jpeg"
+            src="images/kclogo2.jpeg"
             alt="logo"
           />
+          <CircleLoader />
         </div>
       );
     }
 
     //nav bar at top in orange
     return (
-      <div className="body">
+      <div>
         <Helmet>
           <meta charSet="utf-8" />
           <title>Kook-Club!</title>
         </Helmet>
         <div className="mynav">
-          <img
-            className="logo"
-            loading="lazy"
-            src="images/kclogo2.jpeg"
-            alt="logo"
-          />
-          <h1 className="call">Kook-Club!</h1>
+          <div>
+            <img
+              className="logo"
+              loading="lazy"
+              src="images/kclogo2.jpeg"
+              alt="logo"
+            />
+          </div>
+          <div>
+            <h1 className="call">Kook-Club!</h1>
+          </div>
+          <div>
+            {user?.avatar ? (
+              <img className="avatar" loading="lazy" src={user.avatar} />
+            ) : (
+              <img
+                className="avatar"
+                loading="lazy"
+                src="/images/no-avatar-300x300.png"
+              />
+            )}
+          </div>
         </div>
-        {user?.avatar ? (
-          <img className="avatar" loading="lazy" src={user.avatar} />
-        ) : null}
 
         <div>
           <MyNav onLogout={this.handleLogout} user={user} />
@@ -436,4 +451,6 @@ class App extends Component {
     );
   }
 }
+
+// heroku url for env file https://kook-club.herokuapp.com
 export default withRouter(App);
