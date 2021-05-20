@@ -58,7 +58,9 @@ class Profile extends Component {
                       <h2>{e.name}</h2>
                     </Link>
                   </div>
-                  <img className="eventPic" src={e.image} alt="sess pic" />
+                  <Link to={`/event/${e._id}`}>
+                    <img className="eventPic" src={e.image} alt="sess pic" />
+                  </Link>
                 </div>
                 <div className="edit-button">
                   <div className="link">

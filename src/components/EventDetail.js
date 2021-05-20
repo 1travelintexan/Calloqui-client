@@ -93,7 +93,6 @@ class EventDetail extends Component {
     );
     return (
       <div className="event-detail">
-        {" "}
         <h2>{eventDetail.name}</h2>
         {eventDetail.image && (
           <img className="eventPic1" src={eventDetail.image} alt="sess pic" />

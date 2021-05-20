@@ -9,9 +9,8 @@ class EditEvent extends Component {
 
   componentDidMount() {
     let eventId = this.props.match.params.eventId;
-    console.log(eventId);
+
     axios.get(`http://localhost:5005/api/event/${eventId}`).then((response) => {
-      console.log(response.data);
       this.setState({ eventDetail: response.data });
     });
   }

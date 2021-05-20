@@ -141,7 +141,7 @@ class App extends Component {
   };
 
   //this updtes the DB and state
-  handleAdd = (e, user) => {
+  handleAdd = (e) => {
     e.preventDefault();
 
     let image = e.target.eventImage.files[0];
@@ -402,7 +402,7 @@ class App extends Component {
             exact
             path="/"
             render={() => {
-              return <EventList events={events} />;
+              return <EventList user={user} events={events} />;
             }}
           />
           <Route
