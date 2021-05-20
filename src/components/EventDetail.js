@@ -41,7 +41,7 @@ class EventDetail extends Component {
   }
 
   componentDidUpdate() {
-    const { events, comments } = this.props;
+    const { events } = this.props;
     //current event is used to update the event ater a like has happened or comment
     const currentEvent = events.filter(
       (e) => e._id === this.state.eventDetail._id

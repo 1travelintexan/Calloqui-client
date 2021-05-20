@@ -14,7 +14,7 @@ class EventList extends Component {
             <div>
               <div className="row-above-event" key={event._id}>
                 <img className="small-avatar" src={event.owner.avatar} />
-                <h6>~{event.owner.name}~</h6>
+                <h6>{event.owner.name}</h6>
               </div>
               <Link to={`/event/${event._id}`}>
                 <img
