@@ -15,8 +15,8 @@ class EventList extends Component {
         {events.map((event) => {
           return (
             <div>
-              <Link to={`/event/${event._id}`}>
-                <h4 className="event-name">{event.name}</h4>
+              <Link className="event-name" to={`/event/${event._id}`}>
+                <h4>{event.name}</h4>
               </Link>
               {/* <div className="row-above-event" key={event._id}>
                 <img className="small-avatar" src={event.owner.avatar} />
