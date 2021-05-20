@@ -11,13 +11,18 @@ class EventList extends Component {
         <h1 className="upcoming-events">Upcoming Events:</h1>
         {events.map((event) => {
           return (
-            <div className="event-list">
-              <div key={event._id}>
-                <Link className="event-name" to={`/event/${event._id}`}>
-                  <h2>{event.name}</h2>
-                </Link>
+            <div>
+              <div className="row-above-event" key={event._id}>
+                <img className="small-avatar" src={event.owner.avatar} />
+                <h6>~{event.owner.name}~</h6>
               </div>
-              <img className="eventPic-list" src={event.image} alt="sess pic" />
+              <Link to={`/event/${event._id}`}>
+                <img
+                  className="eventPic-list"
+                  src={event.image}
+                  alt="sess pic"
+                />
+              </Link>
             </div>
           );
         })}
