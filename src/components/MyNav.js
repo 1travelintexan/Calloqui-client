@@ -43,12 +43,6 @@ function MyNav(props) {
           </Navbar.Collapse>
         </Navbar>
       </div>
-      <span className="create-sess">
-        <h6>Create an Event</h6>
-        <Link className="create-event" to="/add-event">
-          <h2>Create</h2>
-        </Link>
-      </span>
     </div>
   );
 }

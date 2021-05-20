@@ -5,6 +5,7 @@ class EventList extends Component {
   render() {
     //destructor props coming from app.js state
     const { events } = this.props;
+    console.log(events);
     return (
       <div className="events-list">
         <h1 className="upcoming-events">Upcoming Events:</h1>
@@ -16,7 +17,7 @@ class EventList extends Component {
                   <h2>{event.name}</h2>
                 </Link>
               </div>
-              <img className="eventPic" src={event.image} alt="sess pic" />
+              <img className="eventPic-list" src={event.image} alt="sess pic" />
             </div>
           );
         })}

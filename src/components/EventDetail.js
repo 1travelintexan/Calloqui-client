@@ -10,7 +10,7 @@ class EventDetail extends Component {
   state = {
     eventDetail: null,
     fetchingData: true,
-    comments: [],
+    comments: this.props.comments,
   };
 
   componentDidMount() {
@@ -28,8 +28,6 @@ class EventDetail extends Component {
 
     Promise.allSettled([eventDetailGet, commentGet])
       .then((response) => {
-        console.log("edit promise sucess");
-        //console.log(response[0].value.data);
         this.setState({
           eventDetail: response[0].value.data,
           comments: response[1].value.data,
@@ -43,7 +41,8 @@ class EventDetail extends Component {
   }
 
   componentDidUpdate() {
-    const { events } = this.props;
+    const { events, comments } = this.props;
+    //current event is used to update the event ater a like has happened or comment
     const currentEvent = events.filter(
       (e) => e._id === this.state.eventDetail._id
     );
@@ -51,11 +50,14 @@ class EventDetail extends Component {
     if (currentEvent[0].shaka.length !== this.state.eventDetail.shaka.length) {
       this.setState({ eventDetail: currentEvent[0] });
     }
+    if (this.props.comments.length !== this.state.comments.length) {
+      this.setState({ comments: this.props.comments });
+    }
   }
 
   render() {
     const { eventDetail, fetchingData } = this.state;
-    const { user, onComment, comments, onShaka } = this.props;
+    const { user, onComment, onShaka, comments } = this.props;
 
     //loading screen
     if (fetchingData) {
@@ -73,6 +75,7 @@ class EventDetail extends Component {
         </div>
       );
     }
+
     if (!user) {
       return (
         <Redirect
@@ -84,14 +87,14 @@ class EventDetail extends Component {
       );
     }
 
-    const eventComments = comments.filter(
-      (elem) => elem.eventId === eventDetail._id
+    //this filters the comments for only the ones for this specific event
+    const eventComments = this.state.comments.filter(
+      (elem) => elem.eventId === this.state.eventDetail._id
     );
-
     return (
       <div className="event-detail">
+        {" "}
         <h2>{eventDetail.name}</h2>
-
         {eventDetail.image && (
           <img className="eventPic1" src={eventDetail.image} alt="sess pic" />
         )}
@@ -116,9 +119,7 @@ class EventDetail extends Component {
         <h6>{eventDetail.location}</h6>
         <h3>Date:</h3>
         <h6>{eventDetail.date}</h6>
-
         <h3>Comments:</h3>
-
         {eventComments.map((elem) => {
           return (
             <div>
@@ -133,7 +134,6 @@ class EventDetail extends Component {
             </div>
           );
         })}
-
         <form onSubmit={(e) => onComment(e, eventDetail._id)}>
           <input name="comment" type="text" placeholder="comment" />
           <button type="submit" class="btn btn-info">
