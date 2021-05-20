@@ -159,7 +159,6 @@ class App extends Component {
             description: e.target.description.value,
             date: e.target.date.value,
             location: e.target.location.value,
-            shaka: 0,
           },
           {
             withCredentials: true,
