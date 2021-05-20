@@ -23,13 +23,14 @@ body {
 .shaka img {
   height: 40px;
   margin-top: -10px;
-  margin-right: 20%;
+  margin-right: 20px;
   margin-bottom: 40px;
 }
 .shaka h4 {
   color: rgb(246, 88, 252);
+  text-decoration: wavy;
   font-family: fantasy;
-  font-size: 3rem;
+  font-size: 5rem;
 }
 h2 {
   text-decoration: none;
@@ -66,7 +67,7 @@ h2 {
 .eventPic {
   height: 200px;
   width: 400px;
-  margin-bottom: 100px;
+  margin-bottom: 10px;
   margin-top: -5px;
   border: 10px solid rgb(250, 245, 194);
   box-shadow: 4px 4px 8px rgb(48, 47, 47);
@@ -180,8 +181,17 @@ code {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  font-size: 4vw;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   color: rgb(97, 96, 94);
+  margin-top: 20px;
+}
+
+.event-detail h6 {
+  font-size: 2vw;
+}
+.event-detail h5 {
+  font-size: 2vw;
 }
 .event-detail button {
   margin-left: 10px;
@@ -299,6 +309,7 @@ code {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 100px;
 }
 .avatar-page-h2 {
   display: flex;

@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import config from "./config";
 import CircleLoader from "../components/CircleLoader";
+import { ShakeRotate } from "reshake";
 
 class EventDetail extends Component {
   state = {
@@ -98,7 +99,15 @@ class EventDetail extends Component {
           <h4>Spred some love! </h4>
         </div>
         <div className="shaka">
-          <img onClick={() => onShaka(eventDetail)} src="/images/shaka.jpeg" />
+          <ShakeRotate>
+            <div>
+              <img
+                onClick={() => onShaka(eventDetail)}
+                src="/images/shaka.jpeg"
+              />
+            </div>
+          </ShakeRotate>
+
           <h5>Shaka Count: {eventDetail.shaka.length}</h5>
         </div>
         <h3>Description:</h3>
@@ -118,7 +127,7 @@ class EventDetail extends Component {
                   <h5 className="owner">{elem.owner.name}:</h5>
                 </div>
                 <div>
-                  <p>{elem.comment}</p>
+                  <h6>{elem.comment}</h6>
                 </div>
               </div>
             </div>
