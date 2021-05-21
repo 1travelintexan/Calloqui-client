@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
+import config from "./components/config";
 
 class Profile extends Component {
   state = {

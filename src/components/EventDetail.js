@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import config from "./config";
 import CircleLoader from "../components/CircleLoader";
 import { ShakeRotate } from "reshake";
+import config from "./components/config";
 
 class EventDetail extends Component {
   state = {
