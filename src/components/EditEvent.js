@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import config from "../components/config";
 
 class EditEvent extends Component {
   state = {
