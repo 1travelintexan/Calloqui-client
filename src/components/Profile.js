@@ -15,7 +15,7 @@ class Profile extends Component {
   componentDidMount() {
     //let eventId = this.props.match.params.eventId;
 
-    axios.get(`http://localhost:5005/api/profile`).then((response) => {
+    axios.get(`http://${config.API_URL}/api/profile`).then((response) => {
       console.log(response.data);
       this.setState({ eventDetail: response.data, fetchingData: false });
     });
