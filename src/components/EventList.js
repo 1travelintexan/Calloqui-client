@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 class EventList extends Component {
   render() {
     //destructor props coming from app.js state
-    const { user, events } = this.props;
+    const { events } = this.props;
 
     return (
       <div className="events-list">
