@@ -5,11 +5,8 @@ import config from "../components/config";
 
 class Profile extends Component {
   state = {
-    events: [],
-    user: null,
     error: null,
     fetchingUser: true,
-    comments: [],
     eventDetail: {},
   };
 

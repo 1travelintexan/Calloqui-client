@@ -57,7 +57,7 @@ class EventDetail extends Component {
 
   render() {
     const { eventDetail, fetchingData } = this.state;
-    const { user, onComment, onShaka, comments } = this.props;
+    const { user, onComment, onShaka } = this.props;
 
     //loading screen
     if (fetchingData) {
@@ -106,6 +106,7 @@ class EventDetail extends Component {
               <img
                 onClick={() => onShaka(eventDetail)}
                 src="/images/shaka.jpeg"
+                alt="shaka"
               />
             </div>
           </ShakeRotate>

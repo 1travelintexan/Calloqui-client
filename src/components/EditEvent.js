@@ -11,11 +11,9 @@ class EditEvent extends Component {
   componentDidMount() {
     let eventId = this.props.match.params.eventId;
 
-    axios
-      .get(`http://${config.API_URL}/api/event/${eventId}`)
-      .then((response) => {
-        this.setState({ eventDetail: response.data });
-      });
+    axios.get(`${config.API_URL}/api/event/${eventId}`).then((response) => {
+      this.setState({ eventDetail: response.data });
+    });
   }
 
   //update just the name of the event

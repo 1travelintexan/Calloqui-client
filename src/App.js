@@ -82,7 +82,6 @@ class App extends Component {
       email: email.value,
       password: password.value,
     };
-    console.log(newUser);
     axios
       .post(`${config.API_URL}/api/signin`, newUser, { withCredentials: true })
       .then((response) => {
@@ -108,34 +107,54 @@ class App extends Component {
 
   // NEED TO UPDATE THE STRUCTURE TO HAVE A SINGLE SET STATE FOR ONE GET
   componentDidMount = () => {
-    //start editing here
-    //user api get
-    let userGet = axios.get(`${config.API_URL}/api/user`, {
-      withCredentials: true,
-    });
-
-    //event api get
-    let eventGet = axios.get(`${config.API_URL}/api/events`, {
-      withCredentials: true,
-    });
-
-    //comments api get
-    let commentGet = axios.get(`${config.API_URL}/api/comments`, {
-      withCredentials: true,
-    });
-
-    //chained together
-    Promise.allSettled([userGet, eventGet, commentGet])
+    //get request for events
+    axios
+      .get(`${config.API_URL}/api/events`, {
+        withCredentials: true,
+      })
       .then((response) => {
         this.setState({
-          user: response[0].value.data,
-          events: response[1].value.data,
-          comments: response[2].value.data,
+          events: response.data,
           fetchingUser: false,
         });
+        console.log(response.data);
       })
       .catch((errorObj) => {
-        console.log("promise failed");
+        console.log("promise failed, to get the events");
+        this.setState({ error: errorObj.data, fetchingUser: false });
+      });
+
+    //get request for user
+    axios
+      .get(`${config.API_URL}/api/user`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        this.setState({
+          user: response.data,
+          fetchingUser: false,
+        });
+        console.log(response.data);
+      })
+      .catch((errorObj) => {
+        console.log("promise failed, to get the user");
+        this.setState({ error: errorObj.data, fetchingUser: false });
+      });
+
+    //get request for comments
+    axios
+      .get(`${config.API_URL}/api/comments`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        this.setState({
+          comments: response.data,
+          fetchingUser: false,
+        });
+        console.log(response.data);
+      })
+      .catch((errorObj) => {
+        console.log("promise failed, to get the comments");
         this.setState({ error: errorObj.data, fetchingUser: false });
       });
   };
@@ -381,12 +400,18 @@ class App extends Component {
           </div>
           <div>
             {user?.avatar ? (
-              <img className="avatar" loading="lazy" src={user.avatar} />
+              <img
+                className="avatar"
+                loading="lazy"
+                src={user.avatar}
+                alt="avatar"
+              />
             ) : (
               <img
                 className="avatar"
                 loading="lazy"
                 src="/images/no-avatar-300x300.png"
+                alt="No Avatar"
               />
             )}
           </div>
