@@ -1,7 +1,4 @@
-import React from "react";
-
-function SignUp(props) {
-  const { onSubmit } = props;
+function SignUp({ onSubmit }) {
   return (
     <div className="event-detail">
       <h2>Sign up with us!</h2>

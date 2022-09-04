@@ -1,9 +1,7 @@
-import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function MyNav(props) {
-  const { user, onLogout } = props;
+function MyNav({ user, onLogout }) {
   return (
     <div className="header2">
       <div>

@@ -1,7 +1,4 @@
-import React from "react";
-
-function SignIn(props) {
-  const { onSignIn, error } = props;
+function SignIn({ onSignIn, error }) {
   return (
     <div className="event-detail">
       <h2>Please Log-In</h2>

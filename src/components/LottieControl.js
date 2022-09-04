@@ -1,9 +1,7 @@
 import React from "react";
 import Lottie from "react-lottie";
 
-function LottieControl(props) {
-  const { height, width, animation } = props;
-
+function LottieControl({ height, width, animation }) {
   const defaultOptions = {
     loop: true,
     autoplay: true,
