@@ -262,7 +262,7 @@ function App() {
           />
         </div>
         <div>
-          <h1 className="call">Kook-Club!</h1>
+          <h1 className="call">KOOK CLUB</h1>
         </div>
         <div>
           {user?.avatar ? (
