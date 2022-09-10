@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AllContext } from "../context/allContext";
 import Spinner from "react-bootstrap/Spinner";
 
 function Profile({ onDelete }) {
-  const { fetchingUser, user, events } = useContext(AllContext);
+  const { fetchingUser, user, events, getEventsAndComments } =
+    useContext(AllContext);
+
+  useEffect(() => {
+    getEventsAndComments();
+  }, []);
 
   if (fetchingUser) {
     return (

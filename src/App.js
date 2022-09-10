@@ -183,28 +183,20 @@ function App() {
   };
 
   //handling the edit items
-  const handleEdit = (eventDetail) => {
-    axios
-      .patch(`${API_URL}/api/event/${eventDetail._id}`, eventDetail, {
-        withCredentials: true,
-      })
-      .then(() => {
-        //update the local state after updating the Db
-        let updatedEvents = this.state.events.map((event) => {
-          if (event._id === eventDetail._id) {
-            event.name = eventDetail.name;
-            event.description = eventDetail.description;
-            event.location = eventDetail.location;
-            event.date = eventDetail.date;
-          }
-          return event;
-        });
-        setEvents(updatedEvents);
-        navigate("/");
-      })
-      .catch((errorObj) => {
-        console.log("Error editing event", errorObj);
-      });
+  const handleEdit = async (eventDetail) => {
+    try {
+      let editedEvent = await axios.patch(
+        `${API_URL}/api/event/${eventDetail._id}`,
+        eventDetail,
+        {
+          withCredentials: true,
+        }
+      );
+      setEvents([...events, editedEvent]);
+      navigate("/profile");
+    } catch (err) {
+      console.log("Error editing event", err);
+    }
   };
 
   //handles the avatar photo
@@ -309,7 +301,7 @@ function App() {
           }
         />
         <Route
-          path="/event/:eventId"
+          path="/event/:eventId/edit"
           element={<EditEvent onEdit={handleEdit} />}
         />
 

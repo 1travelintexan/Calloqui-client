@@ -5,6 +5,7 @@ import { ShakeRotate } from "reshake";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { Spinner } from "react-bootstrap";
 
 function EventDetail({ user, onComment, onShaka, events }) {
   const [eventDetail, setEventDetail] = useState(null);
@@ -53,13 +54,10 @@ function EventDetail({ user, onComment, onShaka, events }) {
   if (fetchingData) {
     return (
       <div className="loading">
-        <h1 className="call">Kook-Club!</h1>
-
-        <img
-          className="logo-loading"
-          loading="lazy"
-          src="images/kclogo2.jpeg"
-          alt="logo"
+        <Spinner
+          animation="grow"
+          variant="warning"
+          style={{ height: "200px", width: "200px" }}
         />
       </div>
     );
