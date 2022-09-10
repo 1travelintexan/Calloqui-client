@@ -16,6 +16,10 @@ function MyNav({ onLogout }) {
                 <Link className="nav-link" to="/">
                   <h3>Events</h3>
                 </Link>
+                <Link className="nav-link" to="/friends">
+                  <h3>Friends</h3>
+                </Link>
+
                 <Link className="nav-link" to="/profile">
                   <h3>Profile</h3>
                 </Link>

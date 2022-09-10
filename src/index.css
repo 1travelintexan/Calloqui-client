@@ -380,3 +380,10 @@ code {
   text-decoration: none;
   margin-left: 30px;
 }
+
+.friend-page {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

@@ -13,6 +13,8 @@ import Avatar from "./components/Avatar";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
 import API_URL from "./components/config";
+import Friends from "./components/Friends";
+import FriendProfile from "./components/FriendProfile";
 
 function App() {
   const navigate = useNavigate();
@@ -320,19 +322,9 @@ function App() {
           path="/avatar"
           element={<Avatar user={user} onAvatar={handleAvatar} />}
         />
-        <Route
-          path="/profile"
-          element={
-            <Profile
-              events={events}
-              error={error}
-              user={user}
-              comments={comments}
-              onComment={handleComment}
-              onDelete={handleDelete}
-            />
-          }
-        />
+        <Route path="/profile" element={<Profile onDelete={handleDelete} />} />
+        <Route path="/friends" element={<Friends />} />
+        <Route path="/friend/:friendId" element={<FriendProfile />} />
         <Route element={NotFound} />
       </Routes>
     </div>
