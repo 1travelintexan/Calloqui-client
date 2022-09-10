@@ -11,7 +11,6 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Avatar from "./components/Avatar";
 import Profile from "./components/Profile";
-import CircleLoader from "./components/CircleLoader";
 import NotFound from "./components/NotFound";
 import API_URL from "./components/config";
 
@@ -26,6 +25,7 @@ function App() {
     setEvents,
     setUser,
     error,
+    setFetchingUser,
   } = useContext(AllContext);
 
   const handleLogout = (e) => {
@@ -77,6 +77,7 @@ function App() {
       .then((response) => {
         setUser(response.data);
         setError(null);
+        setFetchingUser(false);
         navigate("/");
       })
       .catch((error) => {
@@ -109,8 +110,8 @@ function App() {
             withCredentials: true,
           }
         );
-        setEvents([...events, eventWithImage]);
-        navigate("/profile");
+        setEvents([...events, eventWithImage.data]);
+        navigate("/");
       } else {
         let eventWithOutImage = await axios.post(
           `${API_URL}/api/create`,
@@ -124,7 +125,7 @@ function App() {
             withCredentials: true,
           }
         );
-        setEvents([...events, eventWithOutImage]);
+        setEvents([...events, eventWithOutImage.data]);
         navigate("/");
       }
     } catch (err) {

@@ -1,45 +1,42 @@
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import API_URL from '../components/config'
-import CircleLoader from "../components/CircleLoader";
+import API_URL from "../components/config";
 import { ShakeRotate } from "reshake";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-
-function EventDetail({ user, onComment, onShaka,events }) {
+function EventDetail({ user, onComment, onShaka, events }) {
   const [eventDetail, setEventDetail] = useState(null);
   const [fetchingData, setFetchingData] = useState(true);
   const [comments, setComments] = useState(null);
   const { eventId } = useParams();
 
-useEffect(()=>{
-  
- //eventDetail get from axios
- const getEventDetail = async()=>{
-  try{
-  let eventDetails = await axios.get(`${API_URL}/api/event/${eventId}`, {
-    withCredentials: true,
-  });
-    //comments api get
-    let comments = await axios.get(`${API_URL}/api/comments`, {
-      withCredentials: true,
-    });
-    let eventComments = comments.data.filter(e => e.eventId === eventDetails.data._id)
+  useEffect(() => {
+    //eventDetail get from axios
+    const getEventDetail = async () => {
+      try {
+        let eventDetails = await axios.get(`${API_URL}/api/event/${eventId}`, {
+          withCredentials: true,
+        });
+        //comments api get
+        let comments = await axios.get(`${API_URL}/api/comments`, {
+          withCredentials: true,
+        });
+        let eventComments = comments.data.filter(
+          (e) => e.eventId === eventDetails.data._id
+        );
 
-  setEventDetail(eventDetails.data)
-  setComments(eventComments)
-  setFetchingData(false);
- }
-catch(err){
-  console.log('there was an error getting the event details', err)
-  setFetchingData(false);
-}
- }
-   getEventDetail()
-
-}, [eventId, events])
+        setEventDetail(eventDetails.data);
+        setComments(eventComments);
+        setFetchingData(false);
+      } catch (err) {
+        console.log("there was an error getting the event details", err);
+        setFetchingData(false);
+      }
+    };
+    getEventDetail();
+  }, [eventId, events]);
 
   //         //current event is used to update the event after a like has happened or comment
   //   const currentEvent = events.filter((e) => e._id === eventDetail._id);
@@ -64,17 +61,16 @@ catch(err){
           src="images/kclogo2.jpeg"
           alt="logo"
         />
-        <CircleLoader />
       </div>
     );
   }
 
   return (
     <div className="event-detail">
-    <h2>{eventDetail.name}</h2>
-     {eventDetail.image && (
-      <img className="eventPic1" src={eventDetail.image} alt="sess pic" />
-       )}
+      <h2>{eventDetail.name}</h2>
+      {eventDetail.image && (
+        <img className="eventPic1" src={eventDetail.image} alt="sess pic" />
+      )}
       <div className="shaka">
         <h4>Spread some love! </h4>
       </div>
@@ -98,20 +94,21 @@ catch(err){
       <h3>Date:</h3>
       <h6>{eventDetail.date}</h6>
       <h3>Comments:</h3>
-      {comments && comments.map((elem) => {
-        return (
-          <div key={uuidv4()}>
-            <div className="comments">
-              <div>
-                <h5 className="owner">{elem.owner.name}:</h5>
-              </div>
-              <div>
-                <h6>{elem.comment}</h6>
+      {comments &&
+        comments.map((elem) => {
+          return (
+            <div key={uuidv4()}>
+              <div className="comments">
+                <div>
+                  <h5 className="owner">{elem.owner.name}:</h5>
+                </div>
+                <div>
+                  <h6>{elem.comment}</h6>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
       <form onSubmit={(e) => onComment(e, eventDetail._id)}>
         <input name="comment" type="text" placeholder="comment" />
         <button type="submit" className="btn btn-info">
@@ -119,7 +116,7 @@ catch(err){
         </button>
       </form>
     </div>
-   );
+  );
 }
 
 export default EventDetail;

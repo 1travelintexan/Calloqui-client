@@ -1,25 +1,19 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AllContext } from "../context/allContext";
+import Spinner from "react-bootstrap/Spinner";
 
-function Profile({ events, user, onDelete }) {
-  const { getUser, fetchingUser } = useContext(AllContext);
-
-  useEffect(() => {
-    const getProfileInfo = async () => {
-      try {
-        await getUser();
-      } catch (err) {
-        console.log("error in profile page", err);
-      }
-    };
-    getProfileInfo();
-  }, [getUser]);
+function Profile({ onDelete }) {
+  const { fetchingUser, user, events } = useContext(AllContext);
 
   if (fetchingUser) {
     return (
       <div className="loading">
-        <h1> loading...</h1>
+        <Spinner
+          animation="grow"
+          variant="warning"
+          style={{ height: "200px", width: "200px" }}
+        />
       </div>
     );
   }

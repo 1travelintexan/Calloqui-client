@@ -13,11 +13,15 @@ function AllContextWrapper(props) {
   useEffect(() => {
     const getEventsAndComments = async () => {
       try {
+        let userDB = await axios.get(`${API_URL}/api/user`, {
+          withCredentials: true,
+        });
+        setUser(userDB.data);
+        setFetchingUser(false);
         let eventsDB = await axios.get(`${API_URL}/api/events`, {
           withCredentials: true,
         });
         setEvents(eventsDB.data);
-
         let commentsDB = await axios.get(`${API_URL}/api/comments`, {
           withCredentials: true,
         });
@@ -30,20 +34,6 @@ function AllContextWrapper(props) {
     };
     getEventsAndComments();
   }, []);
-
-  const getUser = async () => {
-    try {
-      let userDB = await axios.get(`${API_URL}/api/user`, {
-        withCredentials: true,
-      });
-      setUser(userDB.data);
-      setFetchingUser(false);
-    } catch (err) {
-      console.log("There was an error getting your user", err);
-      setError(err.data);
-      setFetchingUser(false);
-    }
-  };
 
   return (
     <AllContext.Provider
@@ -58,7 +48,6 @@ function AllContextWrapper(props) {
         setEvents,
         setFetchingUser,
         setUser,
-        getUser,
       }}
     >
       {props.children}
