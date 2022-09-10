@@ -1,5 +1,6 @@
 import axios from "axios";
-import { React, useState, useEffect } from "react";
+import { React, useContext } from "react";
+import { AllContext } from "./context/allContext";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import MyNav from "./components/MyNav";
 import EventList from "./components/EventList";
@@ -15,61 +16,18 @@ import NotFound from "./components/NotFound";
 import API_URL from "./components/config";
 
 function App() {
-  const [events, setEvents] = useState([]);
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
-  const [fetchingUser, setFetchingUser] = useState(true);
-  const [comments, setComments] = useState([]);
-
   const navigate = useNavigate();
+  const {
+    user,
+    comments,
+    events,
+    setComments,
+    setError,
+    setEvents,
+    setUser,
+    error,
+  } = useContext(AllContext);
 
-  // useEffect for the mounting of the project, handles all the get requests for initial data
-  useEffect(() => {
-    //get request for events
-    axios
-      .get(`${API_URL}/api/events`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setEvents(response.data);
-        setFetchingUser(false);
-      })
-      .catch((errorObj) => {
-        console.log("promise failed, to get the events");
-        setError(errorObj.data);
-        setFetchingUser(false);
-      });
-
-    //get request for user
-    axios
-      .get(`${API_URL}/api/user`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setUser(response.data);
-        setFetchingUser(false);
-      })
-      .catch((errorObj) => {
-        setError(errorObj.data);
-        setFetchingUser(false);
-      });
-
-    //get request for comments
-    axios
-      .get(`${API_URL}/api/comments`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setComments(response.data);
-        setFetchingUser(false);
-      })
-      .catch((errorObj) => {
-        setError(errorObj.data);
-        setFetchingUser(false);
-      });
-  }, []);
-
-  //log out pass an empty object as second parameter so it doesn't send the with credentials... as the object
   const handleLogout = (e) => {
     axios
       .post(`${API_URL}/api/logout`, {}, { withCredentials: true })
@@ -135,25 +93,26 @@ function App() {
     let formData = new FormData();
     formData.append("imageUrl", image);
 
-    try{
-    let uploadResponse = await axios.post(`${API_URL}/api/upload`, formData)
-    if(uploadResponse.data.image){
-      let eventWithImage = await axios.post(
-        `${API_URL}/api/create`,
-        {
-          name: e.target.name.value,
-          image: uploadResponse.data.image,
-          description: e.target.description.value,
-          date: e.target.date.value,
-          location: e.target.location.value,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      setEvents([...events,eventWithImage])
-    }else{
-      let eventWithOutImage =await axios.post(
+    try {
+      let uploadResponse = await axios.post(`${API_URL}/api/upload`, formData);
+      if (uploadResponse.data.image) {
+        let eventWithImage = await axios.post(
+          `${API_URL}/api/create`,
+          {
+            name: e.target.name.value,
+            image: uploadResponse.data.image,
+            description: e.target.description.value,
+            date: e.target.date.value,
+            location: e.target.location.value,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        setEvents([...events, eventWithImage]);
+        navigate("/profile");
+      } else {
+        let eventWithOutImage = await axios.post(
           `${API_URL}/api/create`,
           {
             name: e.target.name.value,
@@ -164,15 +123,14 @@ function App() {
           {
             withCredentials: true,
           }
-        )
-        setEvents([...events,eventWithOutImage])
-          navigate("/")
+        );
+        setEvents([...events, eventWithOutImage]);
+        navigate("/");
       }
+    } catch (err) {
+      setError(err);
+      console.log("upload failed", err);
     }
-      catch(err){
-        setError(err);
-        console.log("upload failed", err);
-      }
   };
 
   //this adds a comment to the db
@@ -206,22 +164,20 @@ function App() {
   };
 
   //deletes events in db
-  const handleDelete = (eventId) => {
+  const handleDelete = async (eventId) => {
     //delete from the DB
     //delete from the state
-    axios
+    await axios
       .delete(`${API_URL}/api/profile/${eventId}`, {
         withCredentials: true,
       })
       .then(() => {
-        let filteredEvents = this.state.events.filter((event) => {
-          return event._id !== eventId;
-        });
+        let filteredEvents = events.filter((e) => e._id !== eventId);
         setEvents(filteredEvents);
-        navigate("/");
+        navigate("/profile");
       })
-      .catch(() => {
-        console.log("delete failed");
+      .catch((err) => {
+        console.log("delete failed", err);
       });
   };
 
@@ -294,27 +250,6 @@ function App() {
       });
   };
 
-  // destructor state first
-  // const { events, error, user, fetchingUser, comments } = this.state;
-
-  //loading screen
-  if (fetchingUser) {
-    return (
-      <div className="loading">
-        <h1 className="call">Kook-Club!</h1>
-
-        <img
-          className="logo-loading"
-          loading="lazy"
-          src="images/kclogo2.jpeg"
-          alt="logo"
-        />
-        <CircleLoader />
-      </div>
-    );
-  }
-
-  //nav bar at top in orange
   return (
     <div>
       <div className="mynav">

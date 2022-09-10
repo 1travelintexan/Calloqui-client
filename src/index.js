@@ -4,16 +4,18 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { AllContextWrapper } from "./context/allContext";
 
-const root = ReactDOM.createRoot(document.getElementById("root"))
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-<React.StrictMode>
+  <React.StrictMode>
     <BrowserRouter>
-<App />
-</BrowserRouter>
+      <AllContextWrapper>
+        <App />
+      </AllContextWrapper>
+    </BrowserRouter>
   </React.StrictMode>
 );
-
 
 //<=========this is the way before react 18 ==================>
 // ReactDOM.render(
