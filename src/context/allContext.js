@@ -48,7 +48,6 @@ function AllContextWrapper(props) {
         setEvents,
         setFetchingUser,
         setUser,
-        getEventsAndComments,
       }}
     >
       {props.children}

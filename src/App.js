@@ -30,20 +30,19 @@ function App() {
     setFetchingUser,
   } = useContext(AllContext);
 
-  const handleLogout = (e) => {
-    axios
-      .post(`${API_URL}/api/logout`, {}, { withCredentials: true })
-      .then(() => {
-        setUser(null);
-        navigate("/");
-      })
-      .catch((errorObj) => {
-        setError(errorObj.response.data);
-      });
+  const handleLogout = async (e) => {
+    try {
+      await axios.post(`${API_URL}/api/logout`, {}, { withCredentials: true });
+      setUser(null);
+      navigate("/");
+    } catch (err) {
+      console.log("There was an error logging out", err);
+      setError(err.response.data);
+    }
   };
 
   //signing up function
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     let { username, password, email } = e.target;
     let newUser = {
@@ -51,41 +50,38 @@ function App() {
       email: email.value,
       password: password.value,
     };
-    axios
-      .post(`${API_URL}/api/signup`, newUser, {
+    try {
+      await axios.post(`${API_URL}/api/signup`, newUser, {
         withCredentials: true,
-      })
-      .then((response) => {
-        setUser(response.data);
-        navigate("/signin");
-      })
-      .catch((errorObj) => {
-        setError(errorObj.response.data);
       });
+
+      navigate("/login");
+    } catch (err) {
+      console.log("There was an error signing up", err);
+      setError(err.response.data);
+    }
   };
 
   //signing in function
-  const handleSignIn = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     let { email, password } = e.target;
     let newUser = {
       email: email.value,
       password: password.value,
     };
-    axios
-      .post(`${API_URL}/api/signin`, newUser, {
+    try {
+      let loggedInUser = await axios.post(`${API_URL}/api/signin`, newUser, {
         withCredentials: true,
-      })
-      .then((response) => {
-        setUser(response.data);
-        setError(null);
-        setFetchingUser(false);
-        navigate("/");
-      })
-      .catch((error) => {
-        setError(error.response.data);
-        console.log("signin failed");
       });
+      setUser(loggedInUser.data);
+      setError(null);
+      setFetchingUser(false);
+      navigate("/profile");
+    } catch (err) {
+      console.log("There was a problem logging in", err);
+      setError(err);
+    }
   };
 
   //this creates a new event
@@ -137,7 +133,7 @@ function App() {
   };
 
   //this adds a comment to the db
-  const handleComment = (e, eventId) => {
+  const handleComment = async (e, eventId) => {
     e.preventDefault();
     let { comment } = e.target;
 
@@ -202,7 +198,7 @@ function App() {
   };
 
   //handles the avatar photo
-  const handleAvatar = (e, userId) => {
+  const handleAvatar = async (e, userId) => {
     e.preventDefault();
 
     let avatar = e.target.avatar.files[0];
@@ -223,7 +219,7 @@ function App() {
   };
 
   //handle the shakas (likes)
-  const handleShaka = (eventDetail) => {
+  const handleShaka = async (eventDetail) => {
     axios
       .patch(`${API_URL}/api/event/${eventDetail._id}/shaka`, eventDetail, {
         withCredentials: true,
@@ -312,8 +308,8 @@ function App() {
           element={<AddEvent user={user} onAdd={handleAdd} />}
         />
         <Route
-          path="/signin"
-          element={<SignIn error={error} onSignIn={handleSignIn} />}
+          path="/login"
+          element={<SignIn error={error} onSignIn={handleLogin} />}
         />
         <Route path="/signup" element={<SignUp onSubmit={handleSignUp} />} />
 

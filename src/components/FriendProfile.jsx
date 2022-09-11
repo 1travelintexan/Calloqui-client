@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import API_URL from "../components/config";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { AllContext } from "../context/allContext";
 
 function FriendProfile() {
   const [friendProfile, setFriendProfile] = useState(null);
   const { friendId } = useParams();
+  const navigate = useNavigate();
+  const { setUser } = useContext(AllContext);
 
   const handleAddFriend = async (friendId) => {
-    const newFriend = await axios.get(`${API_URL}/api/friend/add/${friendId}`, {
-      withCredentials: true,
-    });
-    console.log(newFriend.data);
+    const userWithNewFriend = await axios.get(
+      `${API_URL}/api/friend/add/${friendId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    setUser(userWithNewFriend.data);
+    navigate("/friends");
   };
   useEffect(() => {
     const getFriendProfile = async () => {

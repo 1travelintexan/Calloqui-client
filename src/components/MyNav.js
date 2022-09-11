@@ -38,7 +38,7 @@ function MyNav({ onLogout }) {
           </Navbar>
         ) : (
           <>
-            <Link className="login-links" to="/signin">
+            <Link className="login-links" to="/login">
               Login
             </Link>
             <Link className="login-links" to="/signup">

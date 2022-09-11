@@ -1,17 +1,12 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AllContext } from "../context/allContext";
 import Spinner from "react-bootstrap/Spinner";
 
 function Profile({ onDelete }) {
-  const { fetchingUser, user, events, getEventsAndComments } =
-    useContext(AllContext);
+  const { fetchingUser, user, events } = useContext(AllContext);
 
-  useEffect(() => {
-    getEventsAndComments();
-  }, []);
-
-  if (fetchingUser) {
+  if (fetchingUser || !user) {
     return (
       <div className="loading">
         <Spinner
@@ -22,6 +17,7 @@ function Profile({ onDelete }) {
       </div>
     );
   }
+
   return (
     <div className="margin-bottom">
       <h1 className="upcoming-events">Welcome {user.name}!</h1>
