@@ -128,7 +128,7 @@ function App() {
       }
     } catch (err) {
       setError(err);
-      console.log("upload failed", err);
+      console.log("upload failed", err.message);
     }
   };
 
