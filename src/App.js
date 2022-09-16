@@ -87,7 +87,7 @@ function App() {
   //this creates a new event
   const handleAdd = async (e) => {
     e.preventDefault();
-
+    console.log(e.target.eventImage.files[0]);
     let image = e.target.eventImage.files[0];
     let formData = new FormData();
     formData.append("imageUrl", image);
