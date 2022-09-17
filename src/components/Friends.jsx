@@ -41,23 +41,64 @@ function Friends() {
   return (
     <>
       <div>
-        <h2>Make some Surf Friends</h2>
+        <h1 className="upcoming-events">Make some Surf Friends!</h1>
       </div>
       <div className="friend-page">
         <div>
-          <h4>Friends</h4>
+          <h4>Your Friends:</h4>
           {user.friends &&
             user.friends.map((e) => {
-              return <div key={uuidv4()}>{e.name}</div>;
+              return (
+                <div key={uuidv4()}>
+                  <Link
+                    to={`/friend/${e._id}`}
+                    className=" friends-list friend-link"
+                  >
+                    {e.avatar ? (
+                      <img
+                        src={e.avatar}
+                        alt="friend avatar"
+                        className="friend-image"
+                      />
+                    ) : (
+                      <img
+                        src="http://ronaldmottram.co.nz/wp-content/uploads/2019/01/default-user-icon-8.jpg"
+                        alt="profile avatar"
+                        className="friend-image"
+                      />
+                    )}
+
+                    {e.name}
+                  </Link>
+                </div>
+              );
             })}
         </div>
         <div>
-          <h4>Possible Friends:</h4>
+          <h4>Future Friends:</h4>
           {notFriendUsers &&
             notFriendUsers.map((e) => {
               return (
                 <div key={uuidv4()}>
-                  <Link to={`/friend/${e._id}`}>{e.name}</Link>
+                  <Link
+                    to={`/friend/${e._id}`}
+                    className="friends-list friend-link"
+                  >
+                    {e.avatar ? (
+                      <img
+                        src={e.avatar}
+                        alt="friend avatar"
+                        className="friend-image"
+                      />
+                    ) : (
+                      <img
+                        src="http://ronaldmottram.co.nz/wp-content/uploads/2019/01/default-user-icon-8.jpg"
+                        alt="profile avatar"
+                        className="friend-image"
+                      />
+                    )}
+                    {e.name}
+                  </Link>
                 </div>
               );
             })}

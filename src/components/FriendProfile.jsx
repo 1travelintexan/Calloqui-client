@@ -1,4 +1,8 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import { purple, orange } from "@mui/material/colors";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import API_URL from "../components/config";
@@ -10,6 +14,14 @@ function FriendProfile() {
   const { friendId } = useParams();
   const navigate = useNavigate();
   const { setUser } = useContext(AllContext);
+
+  const ColorButton = styled(Button)(() => ({
+    backgroundColor: orange[400],
+    margin: "20px",
+    "&:hover": {
+      backgroundColor: orange[600],
+    },
+  }));
 
   const handleAddFriend = async (friendId) => {
     const userWithNewFriend = await axios.get(
@@ -40,16 +52,30 @@ function FriendProfile() {
     );
   }
   return (
-    <div>
-      <img src={friendProfile.avatar} alt="friend avatar" />
+    <div className="friends-list">
+      {friendProfile.avatar ? (
+        <img
+          src={friendProfile.avatar}
+          alt="friend avatar"
+          className="friend-profile-image"
+        />
+      ) : (
+        <img
+          src="http://ronaldmottram.co.nz/wp-content/uploads/2019/01/default-user-icon-8.jpg"
+          alt="friend avatar"
+          className="friend-profile-image"
+        />
+      )}
       <h4>{friendProfile.name}</h4>
-      <button
+      <ColorButton
+        variant="contained"
+        size="large"
         onClick={() => {
           handleAddFriend(friendProfile._id);
         }}
       >
         Add Friend
-      </button>
+      </ColorButton>
     </div>
   );
 }

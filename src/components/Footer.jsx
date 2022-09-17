@@ -9,9 +9,29 @@ import {
 function Footer() {
   return (
     <div className="footer">
-      <FontAwesomeIcon icon={faLinkedin} size="4x" />
-      <FontAwesomeIcon icon={faGithub} size="4x" />
-      <FontAwesomeIcon icon={faInstagram} size="4x" />
+      <a
+        href="https://www.linkedin.com/in/-joshua-george/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <FontAwesomeIcon icon={faLinkedin} size="4x" />
+      </a>
+      <a
+        href="https://github.com/1travelintexan"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <FontAwesomeIcon icon={faGithub} size="4x" />{" "}
+      </a>
+      <a
+        href="https://www.instagram.com/1travelintexan/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <FontAwesomeIcon icon={faInstagram} size="4x" />
+      </a>
+
+      <h5>Joshua George™</h5>
     </div>
   );
 }
