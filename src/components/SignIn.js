@@ -1,4 +1,15 @@
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AllContext } from "../context/allContext";
+
 function SignIn({ onSignIn, error }) {
+  const { user } = useContext(AllContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate("/profile");
+    }
+  }, [user, navigate]);
   return (
     <div className="event-detail">
       <h2>Please Log-In</h2>
@@ -24,7 +35,7 @@ function SignIn({ onSignIn, error }) {
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
-        {error && <p>{error.error}</p>}
+        <h6 className="error">{error && <p>{error}</p>}</h6>
       </form>
     </div>
   );

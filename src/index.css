@@ -387,3 +387,16 @@ code {
   justify-content: space-around;
   align-items: center;
 }
+
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  height: 15vh;
+  background-color: rgba(249, 128, 23, 0.975);
+}
+
+.error {
+  color: red;
+}

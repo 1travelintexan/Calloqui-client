@@ -12,21 +12,23 @@ function AllContextWrapper(props) {
 
   const getEventsAndComments = async () => {
     try {
+      let eventsDB = await axios.get(`${API_URL}/api/events`, {
+        withCredentials: true,
+      });
+      setEvents(eventsDB.data);
+
       let userDB = await axios.get(`${API_URL}/api/user`, {
         withCredentials: true,
       });
       setUser(userDB.data);
       setFetchingUser(false);
-      let eventsDB = await axios.get(`${API_URL}/api/events`, {
-        withCredentials: true,
-      });
-      setEvents(eventsDB.data);
+
       let commentsDB = await axios.get(`${API_URL}/api/comments`, {
         withCredentials: true,
       });
       setComments(commentsDB.data);
     } catch (err) {
-      console.log("There was an error getting your events", err);
+      console.log("There was an error", err.response.data.message);
       setError(err.data);
       setFetchingUser(false);
     }

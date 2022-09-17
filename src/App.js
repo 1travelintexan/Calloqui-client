@@ -15,6 +15,7 @@ import NotFound from "./components/NotFound";
 import API_URL from "./components/config";
 import Friends from "./components/Friends";
 import FriendProfile from "./components/FriendProfile";
+import Footer from "./components/Footer";
 
 function App() {
   const navigate = useNavigate();
@@ -79,8 +80,8 @@ function App() {
       setFetchingUser(false);
       navigate("/profile");
     } catch (err) {
-      console.log("There was a problem logging in", err);
-      setError(err);
+      console.log(err.response.data.error);
+      setError(err.response.data.error);
     }
   };
 
@@ -323,6 +324,7 @@ function App() {
         <Route path="/friend/:friendId" element={<FriendProfile />} />
         <Route element={NotFound} />
       </Routes>
+      <Footer />
     </div>
   );
 }
