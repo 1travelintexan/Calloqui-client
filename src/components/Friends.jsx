@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AllContext } from "../context/allContext";
-import API_URL from "../components/config";
+import { API_URL } from "./config";
 import { Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 function Friends() {
   const [notFriendUsers, setNotFriendUsers] = useState(null);
   const { user } = useContext(AllContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getAllUsers = async () => {
-      const allUsersDB = await axios.get(`${API_URL}/api/all-users`);
+      const allUsersDB = await axios.get(`${API_URL.SERVER_URL}/api/all-users`);
       if (user) {
         let allUsers = allUsersDB.data.filter((e) => e._id !== user._id);
         let friendsIds = user.friends.map((e) => e._id);
@@ -26,6 +27,16 @@ function Friends() {
 
     getAllUsers();
   }, [user]);
+
+  const handleChat = async (friendId) => {
+    console.log(friendId);
+    let conversationId = await axios.post(
+      `${API_URL.SOCKET_URL}/chat/conversation`,
+      { participants: [user._id, friendId] },
+      { withCredentials: true }
+    );
+    navigate(`/chat/${conversationId.data._id}`);
+  };
 
   if (!user) {
     return (
@@ -70,6 +81,13 @@ function Friends() {
 
                     {e.name}
                   </Link>
+                  <button
+                    onClick={() => {
+                      handleChat(e._id);
+                    }}
+                  >
+                    Chat
+                  </button>
                 </div>
               );
             })}

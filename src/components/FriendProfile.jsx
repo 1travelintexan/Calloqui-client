@@ -2,10 +2,10 @@ import { useEffect, useState, useContext } from "react";
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import { purple, orange } from "@mui/material/colors";
+import { orange } from "@mui/material/colors";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
-import API_URL from "../components/config";
+import { API_URL } from "./config";
 import { useParams, useNavigate } from "react-router-dom";
 import { AllContext } from "../context/allContext";
 
@@ -25,7 +25,7 @@ function FriendProfile() {
 
   const handleAddFriend = async (friendId) => {
     const userWithNewFriend = await axios.get(
-      `${API_URL}/api/friend/add/${friendId}`,
+      `${API_URL.SERVER_URL}/api/friend/add/${friendId}`,
       {
         withCredentials: true,
       }
@@ -35,7 +35,9 @@ function FriendProfile() {
   };
   useEffect(() => {
     const getFriendProfile = async () => {
-      const friendDetail = await axios.get(`${API_URL}/api/friend/${friendId}`);
+      const friendDetail = await axios.get(
+        `${API_URL.SERVER_URL}/api/friend/${friendId}`
+      );
       setFriendProfile(friendDetail.data);
     };
     getFriendProfile();

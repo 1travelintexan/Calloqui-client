@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import axios from "axios";
-import API_URL from "./config";
+import { API_URL } from "./config";
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -10,7 +10,9 @@ function EditEvent({ onEdit }) {
   const { eventId } = useParams();
   useEffect(() => {
     const getEventToEdit = async () => {
-      const eventToEdit = await axios.get(`${API_URL}/api/event/${eventId}`);
+      const eventToEdit = await axios.get(
+        `${API_URL.SERVER_URL}/api/event/${eventId}`
+      );
       setEventDetail(eventToEdit.data);
     };
     getEventToEdit();

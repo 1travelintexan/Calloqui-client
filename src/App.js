@@ -12,10 +12,11 @@ import SignUp from "./components/SignUp";
 import Avatar from "./components/Avatar";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
-import API_URL from "./components/config";
+import { API_URL } from "./components/config";
 import Friends from "./components/Friends";
 import FriendProfile from "./components/FriendProfile";
 import Footer from "./components/Footer";
+import ChatPage from "./components/ChatPage";
 
 function App() {
   const navigate = useNavigate();
@@ -33,7 +34,11 @@ function App() {
 
   const handleLogout = async (e) => {
     try {
-      await axios.post(`${API_URL}/api/logout`, {}, { withCredentials: true });
+      await axios.post(
+        `${API_URL.SERVER_URL}/api/logout`,
+        {},
+        { withCredentials: true }
+      );
       setUser(null);
       navigate("/");
     } catch (err) {
@@ -52,7 +57,7 @@ function App() {
       password: password.value,
     };
     try {
-      await axios.post(`${API_URL}/api/signup`, newUser, {
+      await axios.post(`${API_URL.SERVER_URL}/api/signup`, newUser, {
         withCredentials: true,
       });
 
@@ -72,9 +77,13 @@ function App() {
       password: password.value,
     };
     try {
-      let loggedInUser = await axios.post(`${API_URL}/api/signin`, newUser, {
-        withCredentials: true,
-      });
+      let loggedInUser = await axios.post(
+        `${API_URL.SERVER_URL}/api/signin`,
+        newUser,
+        {
+          withCredentials: true,
+        }
+      );
       setUser(loggedInUser.data);
       setError(null);
       setFetchingUser(false);
@@ -94,10 +103,13 @@ function App() {
     formData.append("imageUrl", image);
 
     try {
-      let uploadResponse = await axios.post(`${API_URL}/api/upload`, formData);
+      let uploadResponse = await axios.post(
+        `${API_URL.SERVER_URL}/api/upload`,
+        formData
+      );
       if (uploadResponse.data.image) {
         let eventWithImage = await axios.post(
-          `${API_URL}/api/create`,
+          `${API_URL.SERVER_URL}/api/create`,
           {
             name: e.target.name.value,
             image: uploadResponse.data.image,
@@ -113,7 +125,7 @@ function App() {
         navigate("/");
       } else {
         let eventWithOutImage = await axios.post(
-          `${API_URL}/api/create`,
+          `${API_URL.SERVER_URL}/api/create`,
           {
             name: e.target.name.value,
             description: e.target.description.value,
@@ -140,7 +152,7 @@ function App() {
 
     axios
       .post(
-        `${API_URL}/api/comment/${eventId}/create`,
+        `${API_URL.SERVER_URL}/api/comment/${eventId}/create`,
         { comment: comment.value },
 
         {
@@ -168,7 +180,7 @@ function App() {
     //delete from the DB
     //delete from the state
     await axios
-      .delete(`${API_URL}/api/profile/${eventId}`, {
+      .delete(`${API_URL.SERVER_URL}/api/profile/${eventId}`, {
         withCredentials: true,
       })
       .then(() => {
@@ -185,7 +197,7 @@ function App() {
   const handleEdit = async (eventDetail) => {
     try {
       let editedEvent = await axios.patch(
-        `${API_URL}/api/event/${eventDetail._id}`,
+        `${API_URL.SERVER_URL}/api/event/${eventDetail._id}`,
         eventDetail,
         {
           withCredentials: true,
@@ -207,7 +219,7 @@ function App() {
     formData.append("imageUrl", avatar);
 
     axios
-      .patch(`${API_URL}/api/avatar/${userId}`, formData, {
+      .patch(`${API_URL.SERVER_URL}/api/avatar/${userId}`, formData, {
         withCredentials: true,
       })
       .then((response) => {
@@ -222,9 +234,13 @@ function App() {
   //handle the shakas (likes)
   const handleShaka = async (eventDetail) => {
     axios
-      .patch(`${API_URL}/api/event/${eventDetail._id}/shaka`, eventDetail, {
-        withCredentials: true,
-      })
+      .patch(
+        `${API_URL.SERVER_URL}/api/event/${eventDetail._id}/shaka`,
+        eventDetail,
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         // check to see if the id of the events from this state = the id from the event detail with the like
         //if the id's match then return the event from response (this is for only one like per user)
@@ -322,6 +338,7 @@ function App() {
         <Route path="/profile" element={<Profile onDelete={handleDelete} />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/friend/:friendId" element={<FriendProfile />} />
+        <Route path="/chat/:chatId" element={<ChatPage user={user} />} />
         <Route element={NotFound} />
       </Routes>
       <Footer />

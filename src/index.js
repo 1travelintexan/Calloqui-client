@@ -8,21 +8,9 @@ import { AllContextWrapper } from "./context/allContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AllContextWrapper>
-        <App />
-      </AllContextWrapper>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <AllContextWrapper>
+      <App />
+    </AllContextWrapper>
+  </BrowserRouter>
 );
-
-//<=========this is the way before react 18 ==================>
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <App />
-//     </BrowserRouter>
-//   </React.StrictMode>,
-//   document.getElementById("root")
-// );

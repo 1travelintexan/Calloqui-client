@@ -1,6 +1,6 @@
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import API_URL from "../components/config";
+import { API_URL } from "./config";
 import { ShakeRotate } from "reshake";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -17,11 +17,14 @@ function EventDetail({ user, onComment, onShaka, events }) {
     //eventDetail get from axios
     const getEventDetail = async () => {
       try {
-        let eventDetails = await axios.get(`${API_URL}/api/event/${eventId}`, {
-          withCredentials: true,
-        });
+        let eventDetails = await axios.get(
+          `${API_URL.SERVER_URL}/api/event/${eventId}`,
+          {
+            withCredentials: true,
+          }
+        );
         //comments api get
-        let comments = await axios.get(`${API_URL}/api/comments`, {
+        let comments = await axios.get(`${API_URL.SERVER_URL}/api/comments`, {
           withCredentials: true,
         });
         let eventComments = comments.data.filter(
