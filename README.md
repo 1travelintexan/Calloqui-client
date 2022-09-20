@@ -133,3 +133,55 @@ owner - ObjectID<User> // required
 name - String // required
 description - String
 location- String
+
+<=======================================leaflet map api steps=======================>
+-npm i leaflet react-leaflet
+
+-change package.json BrowserList to this:
+"browserslist": [
+">0.2%",
+"not dead",
+"not op_mini all"
+]
+
+-add this to you html head:
+
+   <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin=""
+    />
+
+create component for map, import these:
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+map container needs these to work, also add a className that gives the container and height and width. (Otherwise it wont show)
+<MapContainer
+center={[lat, lon]}
+zoom={13}
+scrollWheelZoom={false} >
+TileLayer is next: It needs an attribution and url from a tile provider. In this case open street map
+<TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+The Marker and popup are a nice touch and require the position attribute to work:
+<Marker position={[lat, lon]}>
+<Popup>
+Great spot choice! <br /> Catch some waves.
+</Popup>
+</Marker>
+<=========================Now the api for the lon and lat============>
+-Open weather map api is free and easy to setup.
+
+-Create an account and request a key
+
+-Afterwards you can make a request like this: (city is from an input and appid is the key from the Open weather map api)
+let coordinates = await axios.get(
+`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${API_KEY}`
+);
+After you get your data the lat and lon with be in the FIRST index of the array with the key of lat & lon
+ex: lat: coordinates.data[0].lat,
+lon: coordinates.data[0].lon,
+
+-store those values in your DB and then set the center of the MapContainer component and the position of the marker.

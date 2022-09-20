@@ -500,3 +500,8 @@ code {
 .error {
   color: red;
 }
+
+.map {
+  height: 200px;
+  width: 400px;
+}

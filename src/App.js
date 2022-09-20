@@ -97,12 +97,24 @@ function App() {
   //this creates a new event
   const handleAdd = async (e) => {
     e.preventDefault();
-    console.log(e.target.eventImage.files[0]);
     let image = e.target.eventImage.files[0];
     let formData = new FormData();
     formData.append("imageUrl", image);
 
+    //city name for lon and lat api
+    let city = e.target.location.value;
+
     try {
+      //openweathermap api to get the lon and lat of a given city
+      let coordinates = await axios.get(
+        `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=348b28629944c191911f08aaf44ae90d`
+      );
+      let location = {
+        city,
+        lat: coordinates.data[0].lat,
+        lon: coordinates.data[0].lon,
+      };
+
       let uploadResponse = await axios.post(
         `${API_URL.SERVER_URL}/api/upload`,
         formData
@@ -115,7 +127,7 @@ function App() {
             image: uploadResponse.data.image,
             description: e.target.description.value,
             date: e.target.date.value,
-            location: e.target.location.value,
+            location,
           },
           {
             withCredentials: true,

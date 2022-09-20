@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { Spinner } from "react-bootstrap";
+import MapComponent from "./MapComponent";
 
 function EventDetail({ user, onComment, onShaka, events }) {
   const [eventDetail, setEventDetail] = useState(null);
@@ -42,18 +43,6 @@ function EventDetail({ user, onComment, onShaka, events }) {
     getEventDetail();
   }, [eventId, events]);
 
-  //         //current event is used to update the event after a like has happened or comment
-  //   const currentEvent = events.filter((e) => e._id === eventDetail._id);
-
-  //   if (currentEvent[0].shaka.length !== eventDetail.shaka.length) {
-  //     setEventDetail({ eventDetail: currentEvent[0] });
-  //   }
-  //   if (currentComments.length !== currentComments.length) {
-  //     setCurrentComments({ comments: comments });
-  //   }
-  // }, [eventId, events, comments]);
-
-  //loading screen
   if (fetchingData) {
     return (
       <div className="loading">
@@ -91,7 +80,11 @@ function EventDetail({ user, onComment, onShaka, events }) {
       <h3>Description:</h3>
       <h6 className="desc">{eventDetail.description}</h6>
       <h3>Location:</h3>
-      <h6>{eventDetail.location}</h6>
+      <h6>{eventDetail.location.city}</h6>
+      <MapComponent
+        lat={eventDetail.location.lat}
+        lon={eventDetail.location.lon}
+      />
       <h3>Date:</h3>
       <h6>{eventDetail.date}</h6>
       <h3>Comments:</h3>
