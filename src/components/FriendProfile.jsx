@@ -11,9 +11,10 @@ import { AllContext } from "../context/allContext";
 
 function FriendProfile() {
   const [friendProfile, setFriendProfile] = useState(null);
+  const [currentFriend, setCurrentFriend] = useState(false);
   const { friendId } = useParams();
   const navigate = useNavigate();
-  const { setUser } = useContext(AllContext);
+  const { setUser, user } = useContext(AllContext);
 
   const ColorButton = styled(Button)(() => ({
     backgroundColor: orange[400],
@@ -22,6 +23,22 @@ function FriendProfile() {
       backgroundColor: orange[600],
     },
   }));
+
+  useEffect(() => {
+    const getFriendProfile = async () => {
+      const friendDetail = await axios.get(
+        `${API_URL.SERVER_URL}/api/friend/${friendId}`
+      );
+      setFriendProfile(friendDetail.data);
+      if (user) {
+        let friendArr = user.friends.filter(
+          (e) => e._id === friendDetail.data._id
+        );
+        friendArr.length > 0 ? setCurrentFriend(true) : setCurrentFriend(false);
+      }
+    };
+    getFriendProfile();
+  }, [friendId, user]);
 
   const handleAddFriend = async (friendId) => {
     const userWithNewFriend = await axios.get(
@@ -33,16 +50,28 @@ function FriendProfile() {
     setUser(userWithNewFriend.data);
     navigate("/friends");
   };
-  useEffect(() => {
-    const getFriendProfile = async () => {
-      const friendDetail = await axios.get(
-        `${API_URL.SERVER_URL}/api/friend/${friendId}`
-      );
-      setFriendProfile(friendDetail.data);
-    };
-    getFriendProfile();
-  }, [friendId]);
-  if (!friendProfile) {
+
+  const handleDeleteFriend = async (friendId) => {
+    const friendRemoved = await axios.get(
+      `${API_URL.SERVER_URL}/api/friend/remove/${friendId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    setUser(friendRemoved.data);
+    navigate("/friends");
+  };
+
+  const handleChat = async (friendId) => {
+    let conversationId = await axios.post(
+      `${API_URL.SOCKET_URL}/chat/conversation`,
+      { participants: [user._id, friendId] },
+      { withCredentials: true }
+    );
+    navigate(`/chat/${conversationId.data._id}`);
+  };
+
+  if (!friendProfile || !user) {
     return (
       <div className="loading">
         <Spinner
@@ -53,6 +82,7 @@ function FriendProfile() {
       </div>
     );
   }
+
   return (
     <div className="friends-list">
       {friendProfile.avatar ? (
@@ -69,15 +99,34 @@ function FriendProfile() {
         />
       )}
       <h4>{friendProfile.name}</h4>
-      <ColorButton
-        variant="contained"
-        size="large"
-        onClick={() => {
-          handleAddFriend(friendProfile._id);
-        }}
-      >
-        Add Friend
-      </ColorButton>
+      {currentFriend ? (
+        <>
+          <button
+            onClick={() => {
+              handleChat(friendProfile._id);
+            }}
+          >
+            Chat
+          </button>
+          <button
+            onClick={() => {
+              handleDeleteFriend(friendProfile._id);
+            }}
+          >
+            Remove Friend
+          </button>
+        </>
+      ) : (
+        <ColorButton
+          variant="contained"
+          size="large"
+          onClick={() => {
+            handleAddFriend(friendProfile._id);
+          }}
+        >
+          Add Friend
+        </ColorButton>
+      )}
     </div>
   );
 }
