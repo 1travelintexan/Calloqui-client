@@ -106,8 +106,9 @@ function App() {
 
     try {
       //openweathermap api to get the lon and lat of a given city
+      const API_KEY = process.env.REACT_APP_WEATHER_API;
       let coordinates = await axios.get(
-        `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=348b28629944c191911f08aaf44ae90d`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${API_KEY}`
       );
       let location = {
         city,
