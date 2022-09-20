@@ -153,6 +153,13 @@ location- String
       crossorigin=""
     />
 
+-add this to the html body:
+
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+   integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+   crossorigin=""></script>
+
 create component for map, import these:
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 map container needs these to work, also add a className that gives the container and height and width. (Otherwise it wont show)
