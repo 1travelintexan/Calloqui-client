@@ -15,6 +15,7 @@ function AllContextWrapper(props) {
       let eventsDB = await axios.get(`${API_URL}/api/events`, {
         withCredentials: true,
       });
+      console.log("events", eventsDB);
       setEvents(eventsDB.data);
 
       let userDB = await axios.get(`${API_URL}/api/user`, {
