@@ -31,6 +31,7 @@ function EventDetail({ user, onComment, onShaka, events }) {
         let eventComments = comments.data.filter(
           (e) => e.eventId === eventDetails.data._id
         );
+        console.log("event detail", eventDetail);
 
         setEventDetail(eventDetails.data);
         setComments(eventComments);
@@ -57,7 +58,7 @@ function EventDetail({ user, onComment, onShaka, events }) {
 
   return (
     <div className="event-detail">
-      <h2>{eventDetail.name}</h2>
+      <h2>{eventDetail && eventDetail.name}</h2>
       {eventDetail && eventDetail.image && (
         <img className="eventPic1" src={eventDetail.image} alt="sess pic" />
       )}
@@ -75,18 +76,18 @@ function EventDetail({ user, onComment, onShaka, events }) {
           </div>
         </ShakeRotate>
 
-        <h5>Shaka Count: {eventDetail.shaka.length}</h5>
+        <h5>Shaka Count: {eventDetail && eventDetail.shaka.length}</h5>
       </div>
       <h3>Description:</h3>
-      <h6 className="desc">{eventDetail.description}</h6>
+      <h6 className="desc">{eventDetail && eventDetail.description}</h6>
       <h3>Location:</h3>
-      <h6>{eventDetail.location.city}</h6>
+      <h6>{eventDetail && eventDetail.location.city}</h6>
       <MapComponent
-        lat={eventDetail.location.lat}
-        lon={eventDetail.location.lon}
+        lat={eventDetail && eventDetail.location.lat}
+        lon={eventDetail && eventDetail.location.lon}
       />
       <h3>Date:</h3>
-      <h6>{eventDetail.date}</h6>
+      <h6>{eventDetail && eventDetail.date}</h6>
       <h3>Comments:</h3>
       {comments &&
         comments.map((elem) => {
