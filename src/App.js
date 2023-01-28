@@ -232,7 +232,7 @@ function App() {
     formData.append("imageUrl", avatar);
 
     axios
-      .patch(`${API_URL.SERVER_URL}/api/avatar/${userId}`, formData, {
+      .post(`${API_URL.SERVER_URL}/api/avatar/${userId}`, formData, {
         withCredentials: true,
       })
       .then((response) => {
