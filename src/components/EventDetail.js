@@ -24,6 +24,8 @@ function EventDetail({ user, onComment, onShaka, events }) {
             withCredentials: true,
           }
         );
+        console.log("event detail", eventDetails);
+
         //comments api get
         let comments = await axios.get(`${API_URL.SERVER_URL}/api/comments`, {
           withCredentials: true,
@@ -31,7 +33,6 @@ function EventDetail({ user, onComment, onShaka, events }) {
         let eventComments = comments.data.filter(
           (e) => e.eventId === eventDetails.data._id
         );
-        console.log("event detail", eventDetail);
 
         setEventDetail(eventDetails.data);
         setComments(eventComments);
@@ -82,10 +83,12 @@ function EventDetail({ user, onComment, onShaka, events }) {
       <h6 className="desc">{eventDetail && eventDetail.description}</h6>
       <h3>Location:</h3>
       <h6>{eventDetail && eventDetail.location.city}</h6>
-      <MapComponent
-        lat={eventDetail && eventDetail.location.lat}
-        lon={eventDetail && eventDetail.location.lon}
-      />
+      {eventDetail.location.lat && eventDetail.location.lon && (
+        <MapComponent
+          lat={eventDetail && eventDetail.location.lat}
+          lon={eventDetail && eventDetail.location.lon}
+        />
+      )}
       <h3>Date:</h3>
       <h6>{eventDetail && eventDetail.date}</h6>
       <h3>Comments:</h3>

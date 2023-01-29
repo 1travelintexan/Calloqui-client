@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 function MapComponent({ lat, lon }) {
+  console.log("lat and long map component", lat, lon);
   return (
     <MapContainer
       center={[lat, lon]}

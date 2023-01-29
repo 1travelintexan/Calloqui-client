@@ -21,6 +21,7 @@ function AllContextWrapper(props) {
       let userDB = await axios.get(`${API_URL}/api/user`, {
         withCredentials: true,
       });
+      console.log("user context", userDB);
       setUser(userDB.data);
       setFetchingUser(false);
 

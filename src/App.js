@@ -96,6 +96,8 @@ function App() {
 
   //this creates a new event
   const handleAdd = async (e) => {
+    //openweathermap api to get the lon and lat of a given city
+    const API_KEY = process.env.REACT_APP_WEATHER_API;
     e.preventDefault();
     let image = e.target.eventImage.files[0];
     let formData = new FormData();
@@ -103,10 +105,9 @@ function App() {
 
     //city name for lon and lat api
     let city = e.target.location.value;
-
+    console.log("city", e.target.location.value);
+    console.log("api key", API_KEY);
     try {
-      //openweathermap api to get the lon and lat of a given city
-      const API_KEY = process.env.REACT_APP_WEATHER_API;
       let coordinates = await axios.get(
         `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${API_KEY}`
       );
@@ -120,6 +121,7 @@ function App() {
         `${API_URL.SERVER_URL}/api/upload`,
         formData
       );
+      console.log("upload response", uploadResponse);
       if (uploadResponse.data.image) {
         let eventWithImage = await axios.post(
           `${API_URL.SERVER_URL}/api/create`,
@@ -137,18 +139,20 @@ function App() {
         setEvents([...events, eventWithImage.data]);
         navigate("/");
       } else {
+        console.log("event without image");
         let eventWithOutImage = await axios.post(
           `${API_URL.SERVER_URL}/api/create`,
           {
             name: e.target.name.value,
             description: e.target.description.value,
             date: e.target.date.value,
-            location: e.target.location.value,
+            location,
           },
           {
             withCredentials: true,
           }
         );
+
         setEvents([...events, eventWithOutImage.data]);
         navigate("/");
       }
