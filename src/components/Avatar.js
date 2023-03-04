@@ -1,8 +1,9 @@
 import { Button } from "react-bootstrap";
 
 function Avatar({ user, onAvatar }) {
+  console.log("user from avatar", user);
   return (
-    <div className="avatar-page">
+    <main className="avatar-page">
       <div>
         <h2 className="avatar-page-h2">Choose your Avatar</h2>
       </div>
@@ -10,12 +11,11 @@ function Avatar({ user, onAvatar }) {
         <form onSubmit={(e) => onAvatar(e, user._id)}>
           <div className="column">
             <input name="avatar" type="file" accept="image/jpeg, image/png" />
-
             <Button type="submit">Submit</Button>
           </div>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
 export default Avatar;

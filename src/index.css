@@ -7,6 +7,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+  min-height: 60vh;
+}
 .login-links {
   text-decoration: none;
   margin: 0 20px 0 30px;

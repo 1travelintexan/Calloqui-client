@@ -19,7 +19,7 @@ function Profile({ onDelete }) {
   }
 
   return (
-    <div className="margin-bottom">
+    <main className="margin-bottom">
       <h1 className="upcoming-events">Welcome {user.name}!</h1>
       <h2 className="event-detail">List of your events:</h2>
       <div className="events-list">
@@ -58,7 +58,7 @@ function Profile({ onDelete }) {
             );
           })}
       </div>
-    </div>
+    </main>
   );
 }
 export default Profile;

@@ -14,7 +14,7 @@ function EventList({ events }) {
     );
   }
   return (
-    <div className="events-list">
+    <main className="events-list">
       <h1 className="upcoming-events">Upcoming Events:</h1>
       {events &&
         events.map((event) => {
@@ -35,7 +35,7 @@ function EventList({ events }) {
             </div>
           );
         })}
-    </div>
+    </main>
   );
 }
 export default EventList;

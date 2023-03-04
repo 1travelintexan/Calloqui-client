@@ -1,5 +1,5 @@
 import React from "react";
-import Lottie from "react-lottie";
+// import Lottie from "react-lottie";
 
 function LottieControl({ height, width, animation }) {
   const defaultOptions = {
@@ -12,7 +12,7 @@ function LottieControl({ height, width, animation }) {
   };
   return (
     <div>
-      <Lottie options={defaultOptions} height={height} width={width} />
+      {/* <Lottie options={defaultOptions} height={height} width={width} /> */}
     </div>
   );
 }

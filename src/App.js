@@ -105,8 +105,6 @@ function App() {
 
     //city name for lon and lat api
     let city = e.target.location.value;
-    console.log("city", e.target.location.value);
-    console.log("api key", API_KEY);
     try {
       let coordinates = await axios.get(
         `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${API_KEY}`
@@ -229,6 +227,7 @@ function App() {
 
   //handles the avatar photo
   const handleAvatar = async (e, userId) => {
+    console.log(e, userId);
     e.preventDefault();
 
     let avatar = e.target.avatar.files[0];
@@ -311,16 +310,9 @@ function App() {
       <div>
         <MyNav onLogout={handleLogout} user={user} />
       </div>
-
-      {/* all routes  */}
       <Routes>
+        <Route path="/" element={<EventList user={user} events={events} />} />
         <Route
-          exact
-          path="/"
-          element={<EventList user={user} events={events} />}
-        />
-        <Route
-          exact
           path="/event/:eventId"
           element={
             <EventDetail
@@ -348,7 +340,6 @@ function App() {
         <Route path="/signup" element={<SignUp onSubmit={handleSignUp} />} />
 
         <Route
-          exact
           path="/avatar"
           element={<Avatar user={user} onAvatar={handleAvatar} />}
         />
@@ -356,7 +347,7 @@ function App() {
         <Route path="/friends" element={<Friends />} />
         <Route path="/friend/:friendId" element={<FriendProfile />} />
         <Route path="/chat/:chatId" element={<ChatPage user={user} />} />
-        <Route element={NotFound} />
+        <Route path="/*" element={NotFound} />
       </Routes>
       <Footer />
     </div>

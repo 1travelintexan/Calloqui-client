@@ -39,7 +39,7 @@ function Friends() {
     );
   }
   return (
-    <>
+    <main>
       <div>
         <h1 className="upcoming-events">Make some Surf Friends!</h1>
       </div>
@@ -104,7 +104,7 @@ function Friends() {
             })}
         </div>
       </div>
-    </>
+    </main>
   );
 }
 

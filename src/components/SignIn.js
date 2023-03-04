@@ -11,7 +11,7 @@ function SignIn({ onSignIn, error }) {
     }
   }, [user, navigate]);
   return (
-    <div className="event-detail">
+    <main className="event-detail">
       <h2>Please Log-In</h2>
       <form onSubmit={onSignIn}>
         <div className="form-group">
@@ -30,6 +30,7 @@ function SignIn({ onSignIn, error }) {
             type="password"
             className="form-control"
             id="InputPassword"
+            autoComplete="on"
           />
         </div>
         <button type="submit" className="btn btn-primary">
@@ -37,7 +38,7 @@ function SignIn({ onSignIn, error }) {
         </button>
         <h6 className="error">{error && <p>{error}</p>}</h6>
       </form>
-    </div>
+    </main>
   );
 }
 

@@ -25,12 +25,15 @@ function SignUp({ onSubmit }) {
           </small>
         </div>
         <div className="form-group">
-          <label htmlFor="InputPassword">Password</label>
+          <label htmlFor="InputPassword" auto>
+            Password
+          </label>
           <input
             name="password"
             type="password"
             className="form-control"
             id="InputPassword"
+            autoComplete="on"
           />
         </div>
         <button type="submit" className="btn btn-primary">
