@@ -178,11 +178,11 @@ function App() {
         //always with axios, the real data is in the data key word
         console.log("comment sucess!");
 
-        // never modify the state except with setState, clone it,then add comment then set state
-        const clonedComments = JSON.parse(JSON.stringify(this.state.comments));
-        clonedComments.push(response.data);
-        setComments(clonedComments);
-        navigate(`/event/${eventId}`);
+        // // never modify the state except with setState, clone it,then add comment then set state
+        // const clonedComments = JSON.parse(JSON.stringify(this.state.comments));
+        // clonedComments.push(response.data);
+        setComments([...comments, response.data]);
+        // navigate(`/event/${eventId}`);
       })
       .catch((errorObj) => {
         console.log("comment upload failed");
