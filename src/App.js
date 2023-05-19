@@ -19,7 +19,6 @@ import Footer from "./components/Footer";
 import ChatPage from "./components/ChatPage";
 
 function App() {
-  console.log("here", API_URL);
   const navigate = useNavigate();
   const { user, events, setError, setEvents, setUser, error, setFetchingUser } =
     useContext(AllContext);
@@ -111,7 +110,6 @@ function App() {
         `${API_URL.SERVER_URL}/api/upload`,
         formData
       );
-      console.log("upload response", uploadResponse);
       if (uploadResponse.data.image) {
         let eventWithImage = await axios.post(
           `${API_URL.SERVER_URL}/api/create`,
@@ -154,8 +152,6 @@ function App() {
 
   //deletes events in db
   const handleDelete = async (eventId) => {
-    //delete from the DB
-    //delete from the state
     await axios
       .delete(`${API_URL.SERVER_URL}/api/profile/${eventId}`, {
         withCredentials: true,
@@ -166,7 +162,7 @@ function App() {
         navigate("/profile");
       })
       .catch((err) => {
-        console.log("delete failed", err);
+        console.log("delete EVENT failed", err);
       });
   };
 

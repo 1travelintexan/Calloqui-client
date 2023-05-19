@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AllContext } from "../context/allContext";
 import Spinner from "react-bootstrap/Spinner";
 
 function Profile({ onDelete }) {
   const { fetchingUser, user, events } = useContext(AllContext);
-
+  const [userEvents, setUserEvents] = useState([]);
+  useEffect(() => {
+    const filterEvents = () => {
+      const filteredEvents = events.filter((e) => e.owner === user._id);
+      setUserEvents(filteredEvents);
+      console.log("users events", filteredEvents, events);
+    };
+    if (events && user) {
+      filterEvents();
+    }
+  }, [events, user]);
   if (fetchingUser || !user) {
     return (
       <div className="loading">
@@ -17,15 +27,14 @@ function Profile({ onDelete }) {
       </div>
     );
   }
-
+  console.log("events from profile", events, user);
   return (
     <main>
       <h1 className="upcoming-events">Welcome {user.name}!</h1>
       <h2 className="event-detail">List of your events:</h2>
       <div className="events-list">
-        {events
-          .filter((e) => e.owner === user._id)
-          .map((e) => {
+        {userEvents.length &&
+          userEvents.map((e) => {
             return (
               <div key={e._id}>
                 <div className="event-list">

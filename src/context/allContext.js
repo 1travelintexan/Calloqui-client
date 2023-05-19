@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { API_URL } from "../config";
+import { API_URL } from "../components/config";
 const AllContext = createContext();
 
 function AllContextWrapper(props) {
@@ -11,13 +11,13 @@ function AllContextWrapper(props) {
 
   const getEventsAndComments = async () => {
     try {
-      let eventsDB = await axios.get(`${API_URL}/api/events`, {
+      let eventsDB = await axios.get(`${API_URL.SERVER_URL}/api/events`, {
         withCredentials: true,
       });
       console.log("events", eventsDB.data);
       setEvents(eventsDB.data);
 
-      let userDB = await axios.get(`${API_URL}/api/user`, {
+      let userDB = await axios.get(`${API_URL.SERVER_URL}/api/user`, {
         withCredentials: true,
       });
       console.log("user context", userDB);
