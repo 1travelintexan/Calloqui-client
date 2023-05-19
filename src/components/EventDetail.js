@@ -8,14 +8,14 @@ import { v4 as uuidv4 } from "uuid";
 import { Spinner } from "react-bootstrap";
 import MapComponent from "./MapComponent";
 
-function EventDetail({ user, onComment, onShaka, events }) {
+function EventDetail({ user, onShaka, events }) {
   const [eventDetail, setEventDetail] = useState(null);
   const [fetchingData, setFetchingData] = useState(true);
+  const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(null);
   const { eventId } = useParams();
 
   useEffect(() => {
-    //eventDetail get from axios
     const getEventDetail = async () => {
       try {
         let eventDetails = await axios.get(
@@ -24,9 +24,6 @@ function EventDetail({ user, onComment, onShaka, events }) {
             withCredentials: true,
           }
         );
-        console.log("event detail", eventDetails);
-
-        //comments api get
         let comments = await axios.get(`${API_URL.SERVER_URL}/api/comments`, {
           withCredentials: true,
         });
@@ -44,6 +41,25 @@ function EventDetail({ user, onComment, onShaka, events }) {
     };
     getEventDetail();
   }, [eventId, events]);
+
+  //this adds a comment to the db
+  const handleComment = async (e, eventId) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        `${API_URL.SERVER_URL}/api/comment/${eventId}/create`,
+        { comment: newComment },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("comment sucess!", data);
+      setComments([...comments, { comment: data.comment, owner: user }]);
+      setNewComment("");
+    } catch (err) {
+      console.log("error with comment", err);
+    }
+  };
 
   if (fetchingData) {
     return (
@@ -107,8 +123,16 @@ function EventDetail({ user, onComment, onShaka, events }) {
             </div>
           );
         })}
-      <form onSubmit={(e) => onComment(e, eventDetail._id)}>
-        <input name="comment" type="text" placeholder="comment" />
+      <form onSubmit={(e) => handleComment(e, eventDetail._id)}>
+        <input
+          name="comment"
+          type="text"
+          placeholder="comment"
+          value={newComment}
+          onChange={(e) => {
+            setNewComment(e.target.value);
+          }}
+        />
         <button type="submit" className="btn btn-info">
           Add Comment
         </button>

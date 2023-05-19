@@ -19,18 +19,10 @@ import Footer from "./components/Footer";
 import ChatPage from "./components/ChatPage";
 
 function App() {
+  console.log("here", API_URL);
   const navigate = useNavigate();
-  const {
-    user,
-    comments,
-    events,
-    setComments,
-    setError,
-    setEvents,
-    setUser,
-    error,
-    setFetchingUser,
-  } = useContext(AllContext);
+  const { user, events, setError, setEvents, setUser, error, setFetchingUser } =
+    useContext(AllContext);
 
   const handleLogout = async (e) => {
     try {
@@ -160,36 +152,6 @@ function App() {
     }
   };
 
-  //this adds a comment to the db
-  const handleComment = async (e, eventId) => {
-    e.preventDefault();
-    let { comment } = e.target;
-
-    axios
-      .post(
-        `${API_URL.SERVER_URL}/api/comment/${eventId}/create`,
-        { comment: comment.value },
-
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        //always with axios, the real data is in the data key word
-        console.log("comment sucess!");
-
-        // // never modify the state except with setState, clone it,then add comment then set state
-        // const clonedComments = JSON.parse(JSON.stringify(this.state.comments));
-        // clonedComments.push(response.data);
-        setComments([...comments, response.data]);
-        // navigate(`/event/${eventId}`);
-      })
-      .catch((errorObj) => {
-        console.log("comment upload failed");
-        setError(errorObj.response.data);
-      });
-  };
-
   //deletes events in db
   const handleDelete = async (eventId) => {
     //delete from the DB
@@ -315,13 +277,7 @@ function App() {
         <Route
           path="/event/:eventId"
           element={
-            <EventDetail
-              events={events}
-              user={user}
-              onShaka={handleShaka}
-              comments={comments}
-              onComment={handleComment}
-            />
+            <EventDetail events={events} user={user} onShaka={handleShaka} />
           }
         />
         <Route
